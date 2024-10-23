@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: deptech
+  #连接数据库deptech
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/phone
+    username: root
+    password: 1234
+#mybatis:
+#  configuration:
+#    #配置mybatis的日志,指定输出到控制台
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    #开启mybatis的驼峰命名自动映射开关 a_column ----> aCloumn
+#    map-underscore-to-camel-case: true
+mybatis-plus:
+  global-config:
+    db-config:
+      #配置逻辑删除字段 默认0 未删除  1 删除
+      logic-delete-field: deleted
+  configuration:
+    #配置mybatis的日志,指定输出到控制台
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启mybatis的驼峰命名自动映射开关 a_column ----> aCloumn
+    map-underscore-to-camel-case: true
+#spring事务管理日志设置级别为bug
+logging:
+  level:
+    org.springframework.jdbc.support.JdbcTransactionManager: debug
+#swagger相关配置
+springdoc:
+  swagger-ui:
+    #设置SwaggerUI界面的访问路径,则可以通过访问http://localhost:8080/swagger-ui.html,来查看和测试API文档。
+    path: /swagger-ui.html
+    #这两个属性分别代表API标签和操作的排序方式，alpha表示按字母顺序进行排序。
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    #配置生成的OpenAPI3.0规范的JSON格式文档的访问路径。按上面配置意味着可以通过访问http://localhost:8080/v3/api-docs来查看生成的JSON文档。
+    path: /v3/api-docs
+    #表示是否启用API文档的生成，true开启，false关闭
+    enabled: true
+    #创建API文档的多个分组，每个分组可以指定匹配的路径和扫描的java包。
+    #  group-configs:
+    #分组名称，
+    #    - group: "user"
+    #该分组的url
+    #      paths-to-match: '/user/**'
+    #g该分组的控制器类所在的包
+#      packages-to-scan: 'com.nongda.controller'
+#    - group: "manager"
+#      paths-to-match: '/manager/**'
+#      packages-to-scan: 'com.nongda.controller'
+#Knife4j配置部分
+knife4j:
+  #表示启用Knife4j的增强功能，true开启，false关闭。在以前的版本中,开发者需要在配置文件中手动使用@EnableKnife4j来使用增强，自2.0.6版本后,只需要在配置文件中配置knife4j.enable=true即可不在使用注解，也就是说开启后不用在配置类使用@EnableKnife4j注解。
+  enable: true
+  setting:
+    #开启动态请求参数
+    enable-dynamic-parameter: true
+    #Ui默认显示语言,目前主要有两种:中文(zh-CN)、英文(en-US,实测实际应为en)。
+    language: zh-CN
+#  basic:
+#    #对Knife4j提供的资源提供BasicHttp校验,保护文档
+#    enable: true
+#    #账号
+#    username: root
+#    #密码，设置完账号密码后意味着访问ui文档的时候需要输入账号和密码，
+#    password: 1234
