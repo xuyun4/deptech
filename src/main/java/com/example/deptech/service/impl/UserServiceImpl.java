@@ -11,9 +11,11 @@ import com.example.deptech.request.loginByVerifyCodeRequest;
 import com.example.deptech.service.UserService;
 import com.example.deptech.mapper.UserMapper;
 import com.example.deptech.util.JwtHelper;
+import com.example.deptech.util.TokenBlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
 * @author 24333
@@ -48,7 +50,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getPassword());
             return Result.success(token);
         }else {
-            throw new CustomException(401,"密码错误，请重新输入");
+//            throw new CustomException(401,"密码错误，请重新输入");
+            return Result.error("密码错误，请重新输入");
         }
 
     }
@@ -66,18 +69,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", request.getPhonenumber()));
         //如果不存在该用户，抛出异常
         if(user == null) {
-            throw new CustomException(401,"请输入正确的手机号");
+//            throw new CustomException(401,"请输入正确的手机号");
+            return Result.error("请输入正确的手机号");
         }
         //如果存在用户，处理剩余业务
         else {
             //检查验证码
             String verifyCode = "123456";
             if(!verifyCode.equals(request.getVerifyCode())) {
-                throw new CustomException(401,"验证码错误");
+//                throw new CustomException(401,"验证码错误");
+                return Result.error("验证码错误");
             }
             //检查密码是否相等且符合格式
             if(!request.getPassword().equals(request.getConfirmPassword())) {
-                throw new CustomException(401,"两次密码输入不一致");
+//                throw new CustomException(401,"两次密码输入不一致");
+                return Result.error("两次密码输入不一致");
             }
             //都通过颁发token并将用户信息存入数据库
             user.setPassword(request.getPassword());
@@ -86,6 +92,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.success(token);
 
         }
+    }
+
+    //用户退出登录
+    @Override
+    public Result logout(@RequestHeader("Authorization")String jwtToken) {
+        //获取token，并删除"bearer"前缀
+        String token = jwtToken.replace("Bearer ", "");
+        //将当前token加入黑名单
+        TokenBlackListService.addTokenToBlacklist(token);
+        return Result.success();
     }
 }
 

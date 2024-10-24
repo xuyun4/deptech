@@ -7,6 +7,7 @@ import com.example.deptech.request.findBackPasswordRequest;
 import com.example.deptech.request.loginByPhoneNumRequest;
 import com.example.deptech.request.loginByVerifyCodeRequest;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
 * @author 24333
@@ -20,4 +21,6 @@ public interface UserService extends IService<User> {
     Result loginByVerifyCode(@RequestBody loginByVerifyCodeRequest request);
     //用户找回密码
     Result findBackPassword(@RequestBody findBackPasswordRequest request);
+    //用户退出登录
+    Result logout(@RequestHeader("Authorization")String jwtToken);
 }

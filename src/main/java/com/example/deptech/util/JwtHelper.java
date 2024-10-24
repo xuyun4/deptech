@@ -23,11 +23,16 @@ public class JwtHelper {
                 .claim("phonenumber",phonenumber)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
                 .compact();
+        token = "Bearer " + token;//符合规范Bearer {token} 的格式
         return token;
     }
 
     //校验token(已经过期返回true，否则返回false)
     public static boolean verifyToken(String token) {
+        //如果token在黑名单中则失效
+        if(TokenBlackListService.isTokenBlacklisted(token)){
+            return true;
+        }
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
@@ -40,6 +45,19 @@ public class JwtHelper {
         }catch (Exception e) {
             //其他解析异常
             return true;
+        }
+    }
+
+    //解析token
+    public static Claims parseToken(String token) {
+        try {
+            Jws<Claims> parseToken = Jwts.parser()
+                    .setSigningKey(tokenSignKey)
+                    .build()
+                    .parseClaimsJws(token);
+            return parseToken.getBody();
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException(e);
         }
     }
 
