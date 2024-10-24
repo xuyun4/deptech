@@ -1,0 +1,29 @@
+<!--
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.worldsverre.mapper.UsersMapper">
+
+    <insert id="add">
+        insert into phone_num.pending_phone(phone, type, times)
+        values(#{phone},#{type},#{times})
+    </insert>
+
+    <update id="update">
+        update phone_num.pending_phone
+        <set>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="times != null">times = #{times},</if>
+            <if test="type != null">type = #{type}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="getByPhone" resultType="com.worldsverre.entity.phonenumber.PendingPhone">
+        select * from phone_num.pending_phone
+        where phone = #{phone}
+    </select>
+</mapper>
+-->
