@@ -1,3 +1,4 @@
+/*
 package com.example.deptech.entity.phonenumber;
 
 import lombok.AllArgsConstructor;
@@ -15,3 +16,4 @@ public class BlockedNumbersCN {
     private boolean status;
     private int createTime;
 }
+*/

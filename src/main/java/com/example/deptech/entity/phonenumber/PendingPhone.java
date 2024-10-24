@@ -1,3 +1,4 @@
+/*
 package com.example.deptech.entity.phonenumber;
 
 import lombok.AllArgsConstructor;
@@ -13,3 +14,4 @@ public class PendingPhone {
     private int times;
     private String phone;
 }
+*/

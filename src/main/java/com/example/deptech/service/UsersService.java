@@ -1,3 +1,4 @@
+/*
 package com.example.deptech.service;
 
 
@@ -9,3 +10,4 @@ public interface UsersService {
 
     PendingPhone getByPhone(String phone);
 }
+*/
