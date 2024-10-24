@@ -66,4 +66,6 @@ knife4j:
 #    #账号
 #    username: root
 #    #密码，设置完账号密码后意味着访问ui文档的时候需要输入账号和密码，
+server:
+  port: 8081
 #    password: 1234
