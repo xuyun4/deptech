@@ -1,3 +1,4 @@
+/*
 package com.example.deptech.controller;
 
 import com.example.deptech.service.PhoneCnService;
@@ -25,3 +26,4 @@ public class PhoneCnController {
         return phoneCnService.a(id);
     }
 }
+*/

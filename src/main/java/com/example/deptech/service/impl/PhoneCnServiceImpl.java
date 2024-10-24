@@ -1,3 +1,4 @@
+/*
 package com.example.deptech.service.impl;
 
 import com.example.deptech.mapper.PhoneCnMapper;
@@ -15,3 +16,4 @@ public class PhoneCnServiceImpl implements PhoneCnService {
         return phoneCnMapper.a(id);
     }
 }
+*/

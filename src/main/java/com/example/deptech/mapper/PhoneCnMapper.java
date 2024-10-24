@@ -1,3 +1,4 @@
+/*
 package com.example.deptech.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -6,3 +7,4 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PhoneCnMapper {
     String a(int id);
 }
+*/
