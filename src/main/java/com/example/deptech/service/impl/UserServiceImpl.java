@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.deptech.entity.Result;
 import com.example.deptech.entity.User;
-import com.example.deptech.excepetion.CustomException;
+import com.example.deptech.mapper.UserMapper;
 import com.example.deptech.request.findBackPasswordRequest;
 import com.example.deptech.request.loginByPhoneNumRequest;
 import com.example.deptech.request.loginByVerifyCodeRequest;
 import com.example.deptech.service.UserService;
-import com.example.deptech.mapper.UserMapper;
 import com.example.deptech.util.JwtHelper;
 import com.example.deptech.util.TokenBlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = new User();
         user.setPhoneNumber(request.getPhoneNumber());
         user.setPassword(request.getPassword());
-        //通过phonenumber判断用户是否注册过
+        //通过phoneNumber判断用户是否注册过
         User user1 = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", user.getPhoneNumber()));
         //未注册：将新用户添加到数据库
         if(user1 == null) {

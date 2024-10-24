@@ -2,14 +2,13 @@ package com.example.deptech.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecurityException;
 
 import java.security.Key;
 import java.util.Date;
 
 public class JwtHelper {
 
-    //token有效时常一个月
+    //token有效时长一个月
     private static long tokenExpiration = 24L * 60 * 60 * 1000 * 30;
     // 使用 Keys.secretKeyFor 生成符合HS512算法的安全密钥
     private static final Key tokenSignKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
@@ -18,7 +17,7 @@ public class JwtHelper {
     public static String createToken(Long id, String phonenumber,String password) {
         String token = Jwts.builder()
                 .setSubject("User")//设置jwt主题为User
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))//token有效时常
+                .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))//token有效时长
                 .claim("id",id)//添加字段
                 .claim("phonenumber",phonenumber)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
