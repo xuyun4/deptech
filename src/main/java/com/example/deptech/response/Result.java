@@ -1,4 +1,4 @@
-package com.example.deptech.entity;
+package com.example.deptech.response;
 //这是返回前端的统一返回类
 public class Result {
     //1表示运行成功,0表示运行失败
