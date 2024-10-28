@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class SmsSender {
 
-    static final String accessKeyId = "LTAI5tBRztrv52t6cV41u3Af";
-    static final String accessKeySecret = "YlEhkgj6tIVzR2jOJE7fCVF7zsSBJT";
+    static final String accessKeyId = "暂时";
+    static final String accessKeySecret = "暂时";
     static final String signName = "daptech副本";
     static final String templateCode = "SMS_474925615";
 

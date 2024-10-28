@@ -2,7 +2,7 @@ package com.example.deptech.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.deptech.entity.Result;
+import com.example.deptech.response.Result;
 import com.example.deptech.entity.User;
 import com.example.deptech.request.FindBackPasswordRequest;
 import com.example.deptech.request.LoginByPhoneNumRequest;
