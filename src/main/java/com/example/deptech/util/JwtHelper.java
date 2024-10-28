@@ -2,17 +2,26 @@ package com.example.deptech.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecurityException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
+@Component
 public class JwtHelper {
 
     //token有效时常一个月
     private static long tokenExpiration = 24L * 60 * 60 * 1000 * 30;
     // 使用 Keys.secretKeyFor 生成符合HS512算法的安全密钥
     private static final Key tokenSignKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    @Autowired
+    private static TokenBlackListService tokenBlackListService;
+
+    // 一个公共的静态 getter 方法
+    public static Key getTokenSignKey() {
+        return tokenSignKey;
+    }
 
     //创建token
     public static String createToken(Long id, String phonenumber,String password) {
@@ -30,7 +39,7 @@ public class JwtHelper {
     //校验token(已经过期返回true，否则返回false)
     public static boolean verifyToken(String token) {
         //如果token在黑名单中则失效
-        if(TokenBlackListService.isTokenBlacklisted(token)){
+        if(tokenBlackListService.isTokenBlacklisted(token)){
             return true;
         }
         try {
