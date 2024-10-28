@@ -1,10 +1,10 @@
-package com.example.deptech.entity;
+package com.example.deptech.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-package com.example.deptech.response;
+
 //这是返回前端的统一返回类
 @Data
 @NoArgsConstructor

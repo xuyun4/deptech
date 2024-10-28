@@ -2,12 +2,13 @@ package com.example.deptech.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.deptech.entity.Result;
+
 import com.example.deptech.entity.User;
 import com.example.deptech.mapper.UserMapper;
 import com.example.deptech.request.findBackPasswordRequest;
 import com.example.deptech.request.loginByPhoneNumRequest;
 import com.example.deptech.request.loginByVerifyCodeRequest;
+import com.example.deptech.response.Result;
 import com.example.deptech.service.UserService;
 import com.example.deptech.util.JwtHelper;
 import com.example.deptech.util.TokenBlackListService;

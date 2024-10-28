@@ -1,6 +1,6 @@
 package com.example.deptech.controller;
 
-import com.example.deptech.entity.Result;
+import com.example.deptech.response.Result;
 import com.example.deptech.request.findBackPasswordRequest;
 import com.example.deptech.request.loginByPhoneNumRequest;
 import com.example.deptech.request.loginByVerifyCodeRequest;
