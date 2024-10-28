@@ -1,6 +1,6 @@
 package com.example.deptech.service;
 
-import com.example.deptech.entity.Result;
+
 import com.example.deptech.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.deptech.request.findBackPasswordRequest;
