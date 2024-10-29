@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>deptech</artifactId>
+    <artifactId>daptech</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>deptech</name>
     <description>deptech</description>
@@ -114,7 +114,7 @@
         </dependency>
 
 
-        <!-- 以下两条依赖用于引入第三方API,获取号码归属地与是否虚拟 -->
+        <!-- 以下三条依赖用于引入第三方API,获取号码归属地与是否虚拟 -->
         <!-- Apache HttpClient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -128,6 +128,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.12.3</version>
         </dependency>
+
         <dependency>
             <groupId>com.baidubce</groupId>
             <artifactId>api-explorer-sdk</artifactId>

@@ -1,7 +1,7 @@
 spring:
   application:
-    name: deptech
-  #连接数据库deptech
+    name: daptech
+  #连接数据库daptech
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/phone
