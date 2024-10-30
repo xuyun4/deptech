@@ -1,9 +1,9 @@
 package com.example.daptech.controller;
 
 import com.example.daptech.response.Result;
-import com.example.daptech.request.findBackPasswordRequest;
-import com.example.daptech.request.loginByPhoneNumRequest;
-import com.example.daptech.request.loginByVerifyCodeRequest;
+import com.example.daptech.request.FindBackPasswordRequest;
+import com.example.daptech.request.LoginByPhoneNumRequest;
+import com.example.daptech.request.LoginByVerifyCodeRequest;
 import com.example.daptech.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,19 +26,19 @@ public class UserController {
 
     //通过账号密码登录
     @PostMapping("/loginByPhoneNum")
-    public Result loginByPhoneNum(@Valid @RequestBody loginByPhoneNumRequest request) {
+    public Result loginByPhoneNum(@Valid @RequestBody LoginByPhoneNumRequest request) {
         return userService.loginByPhoneNum(request);
     }
 
     //通过验证码登录
     @PostMapping("/loginByVerifyCode")
-    public Result loginByVerifyCode(@Valid @RequestBody loginByVerifyCodeRequest request) {
+    public Result loginByVerifyCode(@Valid @RequestBody LoginByVerifyCodeRequest request) {
         return userService.loginByVerifyCode(request);
     }
 
     //找回密码
     @PostMapping("/findBackAcct")
-    public Result findBackAcct(@Valid @RequestBody findBackPasswordRequest request) {
+    public Result findBackAcct(@Valid @RequestBody FindBackPasswordRequest request) {
         return userService.findBackPassword(request);
     }
 

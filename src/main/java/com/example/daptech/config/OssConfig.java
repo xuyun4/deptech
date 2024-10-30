@@ -1,4 +1,4 @@
-package com.example.deptech.config;
+package com.example.daptech.config;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;

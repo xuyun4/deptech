@@ -2,6 +2,7 @@ package com.example.daptech.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,16 @@ public class JwtHelper {
     private static long tokenExpiration = 24L * 60 * 60 * 1000 * 30;
     // 使用 Keys.secretKeyFor 生成符合HS512算法的安全密钥
     private static final Key tokenSignKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
     @Autowired
+    private TokenBlackListService tokenBlackListServiceInstance;
+    //黑名单服务
     private static TokenBlackListService tokenBlackListService;
+
+    @PostConstruct
+    public void init() {
+        tokenBlackListService = this.tokenBlackListServiceInstance;
+    }
 
     // 一个公共的静态 getter 方法
     public static Key getTokenSignKey() {

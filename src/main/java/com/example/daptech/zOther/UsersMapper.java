@@ -1,5 +1,5 @@
 /*
-package com.example.deptech.mapper;
+package com.example.daptech.mapper;
 
 import com.worldsverre.entity.phonenumber.PendingPhone;
 import org.apache.ibatis.annotations.Mapper;

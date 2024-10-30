@@ -1,5 +1,5 @@
 /*
-package com.example.deptech.entity;
+package com.example.daptech.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

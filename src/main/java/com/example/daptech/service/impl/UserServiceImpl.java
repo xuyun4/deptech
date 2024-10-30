@@ -1,18 +1,19 @@
-package com.example.deptech.service.impl;
+package com.example.daptech.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.deptech.response.Result;
-import com.example.deptech.entity.User;
-import com.example.deptech.request.FindBackPasswordRequest;
-import com.example.deptech.request.LoginByPhoneNumRequest;
-import com.example.deptech.request.LoginByVerifyCodeRequest;
-import com.example.deptech.service.UserService;
-import com.example.deptech.mapper.UserMapper;
-import com.example.deptech.util.AvatarUpdater;
-import com.example.deptech.util.JwtHelper;
-import com.example.deptech.util.SmsSender;
-import com.example.deptech.util.TokenBlackListService;
+import com.example.daptech.util.JwtHelper;
+import com.example.daptech.response.Result;
+import com.example.daptech.entity.User;
+import com.example.daptech.request.FindBackPasswordRequest;
+import com.example.daptech.request.LoginByPhoneNumRequest;
+import com.example.daptech.request.LoginByVerifyCodeRequest;
+import com.example.daptech.service.UserService;
+import com.example.daptech.mapper.UserMapper;
+import com.example.daptech.util.AvatarUpdater;
+import com.example.daptech.util.JwtHelper;
+import com.example.daptech.util.SmsSender;
+import com.example.daptech.util.TokenBlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -126,10 +127,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     //用户退出登录
     @Override
     public Result logout(@RequestHeader(value = "Authorization", required = true)String jwtToken) {
-        //获取token，并删除"bearer"前缀
-        String token = jwtToken.replace("Bearer ", "");
         //将当前token加入黑名单
-        tokenBlackListService.addTokenToBlacklist(token);
+        tokenBlackListService.addTokenToBlacklist(jwtToken);
         return Result.success();
     }
 

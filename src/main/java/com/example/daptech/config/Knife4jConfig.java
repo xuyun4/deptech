@@ -17,7 +17,7 @@ public class Knife4jConfig {
                         //设置标题
                         .title("knife4j接口文档")
                         //设置简述
-                        .description("deptech的接口文档,基于knife4j-openapi3-jakarta-spring-boot-starter")
+                        .description("daptech的接口文档,基于knife4j-openapi3-jakarta-spring-boot-starter")
                         //设置版本
                         .version("1.0")
                         //设置联系方式
@@ -35,6 +35,6 @@ public class Knife4jConfig {
                 //分组url
                 .pathsToMatch("/**")
                 //该分组所在的包
-                .packagesToScan("com.example.deptech.controller").build();
+                .packagesToScan("com.example.daptech.controller").build();
     }
 }
