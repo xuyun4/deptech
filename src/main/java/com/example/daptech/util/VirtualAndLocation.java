@@ -35,7 +35,7 @@ public class VirtualAndLocation {
      * @param phoneNumber 电话号码
      * @return 是否为虚拟号
      */
-    public static boolean isVirtualNumber(String phoneNumber) {
+    public static boolean isVirtual(String phoneNumber) {
         String prefix = phoneNumber.substring(0, 3); // 取前缀
         return VIRTUAL_NUMBER_PREFIXES.contains(prefix);
     }

@@ -23,8 +23,10 @@ public class PhoneAppealController {
 
     @DeleteMapping("/appealByPhoneNumber")
     public Result appealPhone(String phone,
-                              @RequestHeader("Authorization")String token){
+                              @RequestHeader("Authorization")String jwtToken){
 
+        //获取token，并删除"bearer"前缀
+        String token = jwtToken.replace("Bearer ", "");
         if(!JwtHelper.verifyToken(token)) {
             phoneAppealService.submitAppeal(phone);
 

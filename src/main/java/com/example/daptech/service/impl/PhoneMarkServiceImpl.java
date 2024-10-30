@@ -87,7 +87,8 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
                 pendingPhoneMapper.updatePendingPhone(phoneNumber, types[index],pendingPhone.getTimes()+1);
                 if(pendingPhone.getTimes()+1>=10){ //如果被标记次数超过10次,则加入phone_cn表,并删除pending_phone表中该记录
                     String location = VirtualAndLocation.getLocation(phoneNumber);
-                    phoneCnMapper.insertPhoneCn(phoneNumber, types[index], pendingPhone.getTimes()+1, 1,unixTimestampSeconds,unixTimestampSeconds,location);
+                    Integer virtual = VirtualAndLocation.isVirtual(phoneNumber)? 1 : 0;
+                    phoneCnMapper.insertPhoneCn(phoneNumber, types[index], pendingPhone.getTimes()+1, virtual,unixTimestampSeconds,unixTimestampSeconds,location);
                     pendingPhoneMapper.deletePendingPhone(phoneNumber, types[index]);
                 }
             }
