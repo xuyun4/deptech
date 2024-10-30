@@ -2,20 +2,21 @@ package com.example.daptech.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
+import com.example.daptech.response.Result;
 import com.example.daptech.entity.User;
-import com.example.daptech.mapper.UserMapper;
 import com.example.daptech.request.findBackPasswordRequest;
 import com.example.daptech.request.loginByPhoneNumRequest;
 import com.example.daptech.request.loginByVerifyCodeRequest;
-import com.example.daptech.response.Result;
 import com.example.daptech.service.UserService;
+import com.example.daptech.mapper.UserMapper;
 import com.example.daptech.util.JwtHelper;
+import com.example.daptech.util.SmsSender;
 import com.example.daptech.util.TokenBlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
 * @author 24333
@@ -28,6 +29,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Autowired
     private UserMapper userMapper;
+    //获取黑名单管理实例
+    @Autowired
+    private TokenBlackListService tokenBlackListService;
+    //获取验证码发送器
+    @Autowired
+    private SmsSender smsSender;
 
     //用户账号密码登录或注册
     @Override
@@ -36,10 +43,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = new User();
         user.setPhoneNumber(request.getPhoneNumber());
         user.setPassword(request.getPassword());
-        //通过phoneNumber判断用户是否注册过
+        //通过phonenumber判断用户是否注册过
         User user1 = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", user.getPhoneNumber()));
         //未注册：将新用户添加到数据库
         if(user1 == null) {
+            String s = request.getPhoneNumber().substring(request.getPhoneNumber().length()-4);
+            user.setNickname(s);
+            user.setStatus(0);
             userMapper.insert(user);
             //给用户分发token
             String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getPassword());
@@ -59,7 +69,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     //用户验证码登录
     @Override
     public Result loginByVerifyCode(@RequestBody loginByVerifyCodeRequest request) {
-        return null;
+        //根据phonenumber找到该用户
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", request.getPhoneNumber()));
+        //如果不存在该用户，抛出异常
+        if(user == null) {
+            return Result.error("请输入正确的手机号");
+        }
+        //如果存在用户，处理剩余业务
+        else if (!smsSender.verifyCode(request.getPhoneNumber(), request.getVerifyCode())) {
+            return Result.error("验证码错误");
+        }
+        String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getPassword());
+        return Result.success(token);
     }
 
     //用户找回密码
@@ -69,14 +90,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", request.getPhonenumber()));
         //如果不存在该用户，抛出异常
         if(user == null) {
-//            throw new CustomException(401,"请输入正确的手机号");
             return Result.error("请输入正确的手机号");
         }
         //如果存在用户，处理剩余业务
         else {
             //检查验证码
-            String verifyCode = "123456";
-            if(!verifyCode.equals(request.getVerifyCode())) {
+            if(!smsSender.verifyCode(request.getPhonenumber(),request.getVerifyCode())) {
 //                throw new CustomException(401,"验证码错误");
                 return Result.error("验证码错误");
             }
@@ -96,11 +115,41 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     //用户退出登录
     @Override
-    public Result logout(@RequestHeader("Authorization")String jwtToken) {
+    public Result logout(@RequestHeader(value = "Authorization", required = true)String jwtToken) {
         //获取token，并删除"bearer"前缀
         String token = jwtToken.replace("Bearer ", "");
         //将当前token加入黑名单
-        TokenBlackListService.addTokenToBlacklist(token);
+        tokenBlackListService.addTokenToBlacklist(token);
+        return Result.success();
+    }
+
+    //用户修改昵称
+    @Override
+    public Result changeNickname(@RequestHeader(value = "Authorization", required = true)String jwtToken, String nickname) {
+        Long id = JwtHelper.getIdFromToken(jwtToken);
+        User user = userMapper.selectById(id);
+        user.setNickname(nickname);
+        return Result.success();
+    }
+
+    //用户上传头像
+    @Override
+    public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) {
+        return null;
+    }
+
+    //发送验证码
+    @Override
+    public Result sendSms(String phonenumber) {
+        //根据phonenumber找到该用户
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", phonenumber));
+        //如果不存在该用户，抛出异常
+        if(user == null) {
+            //throw new CustomException(401,"请输入正确的手机号");
+            return Result.error("请输入正确的手机号");
+        }
+        //如果存在用户，发送验证码
+        smsSender.sendVerificationCode(phonenumber);
         return Result.success();
     }
 }

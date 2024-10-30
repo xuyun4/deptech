@@ -12,11 +12,14 @@
             <result property="codeExpiration" column="code_expiration" jdbcType="TIMESTAMP"/>
             <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
             <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,phone_number,password,
         verification_code,code_expiration,created_at,
-        updated_at
+        updated_at,nickname,avatar_url,status
     </sql>
 </mapper>

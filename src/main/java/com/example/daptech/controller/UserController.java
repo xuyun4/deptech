@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -35,13 +36,31 @@ public class UserController {
 
     //找回密码
     @PostMapping("/findBackAcct")
-    public Result login(@Valid @RequestBody findBackPasswordRequest request) {
+    public Result findBackAcct(@Valid @RequestBody findBackPasswordRequest request) {
         return userService.findBackPassword(request);
     }
 
     //退出登录
     @PostMapping("/logout")
-    public Result logout(@RequestHeader("Authorization")String token) {
+    public Result logout(@RequestHeader(value = "Authorization", required = true)String token) {
         return userService.logout(token);
+    }
+
+    //用户修改昵称
+    @PutMapping("/changeNickname")
+    public Result changeNickname(@RequestHeader(value = "Authorization", required = true)String jwtToken, String nickname){
+        return userService.changeNickname(jwtToken,nickname);
+    }
+
+    //用户上传头像url
+    @PutMapping("/updateAvatar")
+    public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file){
+        return userService.updateAvatar(jwtToken,file);
+    }
+
+    //用户发送验证码
+    @PostMapping("/snedSms")
+    public Result sendSms(String phonenumber){
+        return userService.sendSms(phonenumber);
     }
 }
