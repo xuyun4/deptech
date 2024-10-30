@@ -5,26 +5,34 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+//验证码发送
 @Component
 public class SmsSender {
 
-    static final String accessKeyId = "暂时";
-    static final String accessKeySecret = "暂时";
-    static final String signName = "daptech副本";
-    static final String templateCode = "SMS_474925615";
+    @Value("${aliyun.accessKeyId}")
+    private String accessKeyId ;
+    @Value("${aliyun.accessKeySecret}")
+    private String accessKeySecret ;
+    @Value("${aliyun.signName}")
+    private String signName;
+    @Value("${aliyun.templateCode}")
+    private String templateCode ;
 
-    private final IAcsClient client;
+    private IAcsClient client;
     @Autowired
     private RedisTemplate<String, String> smsRedisTemplate; // 用于存储验证码
 
-    public SmsSender() {
+    @PostConstruct
+    public void SmsSender() {
         // 创建阿里云短信客户端，不使用 teaconfig
         DefaultProfile profile = DefaultProfile.getProfile("cn-beijing", accessKeyId, accessKeySecret);
         this.client = new DefaultAcsClient(profile);

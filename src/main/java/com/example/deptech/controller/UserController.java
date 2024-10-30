@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @Slf4j
 @RestController
 @RequestMapping("/user")
@@ -54,7 +56,7 @@ public class UserController {
 
     //用户上传头像url
     @PutMapping("/updateAvatar")
-    public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file){
+    public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) throws IOException {
         return userService.updateAvatar(jwtToken,file);
     }
 

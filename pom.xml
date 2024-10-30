@@ -135,8 +135,11 @@
             <version>1.1.0</version> <!-- 使用最新版本 -->
         </dependency>
 
-
-
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.10.2</version>
+        </dependency>
 
 
         <!-- 以下两条依赖用于引入第三方API,获取号码归属地与是否虚拟 -->

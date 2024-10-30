@@ -59,6 +59,7 @@ public class JwtHelper {
 
     //解析token
     public static Claims parseToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
@@ -72,6 +73,7 @@ public class JwtHelper {
 
     //从token中获取用户id
     public static Long getIdFromToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
@@ -82,6 +84,7 @@ public class JwtHelper {
 
     //从token中获取phonenumber
     public static String getPhonenumberFromToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()

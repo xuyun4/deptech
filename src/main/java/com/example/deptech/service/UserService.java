@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
 * @author 24333
 * @description 针对表【user】的数据库操作Service
@@ -27,7 +29,7 @@ public interface UserService extends IService<User> {
     //用户修改昵称
     Result changeNickname(@RequestHeader(value = "Authorization", required = true)String jwtToken,String nickname);
     //用户上传头像
-    Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file);
+    Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) throws IOException;
     //用户发送验证码
     Result sendSms(String phonenumber);
 }

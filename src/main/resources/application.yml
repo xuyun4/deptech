@@ -26,7 +26,14 @@ spring:
         pool:
           max-wait: 300
 
-
+#阿里云相关配置
+aliyun:
+  accessKeyId: LTAI5t5vyT9vDTezbJGycUsD
+  accessKeySecret: xrh1bk3q9UD5W5hVOvaBWofVtdoYNK
+  signName: daptech副本
+  templateCode: SMS_474925615
+  endpoint: https://oss-cn-beijing.aliyuncs.com
+  bucketName: daptech
 #mybatis:
 #  configuration:
 #    #配置mybatis的日志,指定输出到控制台

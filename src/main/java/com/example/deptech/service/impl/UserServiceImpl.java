@@ -9,14 +9,19 @@ import com.example.deptech.request.LoginByPhoneNumRequest;
 import com.example.deptech.request.LoginByVerifyCodeRequest;
 import com.example.deptech.service.UserService;
 import com.example.deptech.mapper.UserMapper;
+import com.example.deptech.util.AvatarUpdater;
 import com.example.deptech.util.JwtHelper;
 import com.example.deptech.util.SmsSender;
 import com.example.deptech.util.TokenBlackListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
 * @author 24333
@@ -24,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 * @createDate 2024-10-24 10:59:28
 */
 @Service
+@EnableTransactionManagement
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
 
@@ -35,6 +41,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     //获取验证码发送器
     @Autowired
     private SmsSender smsSender;
+    //获取头像上传器
+    @Autowired
+    private AvatarUpdater avatarUpdater;
 
     //用户账号密码登录或注册
     @Override
@@ -51,13 +60,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             user.setNickname(s);
             user.setStatus(0);
             userMapper.insert(user);
+            User user2 = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", user.getPhoneNumber()));
             //给用户分发token
-            String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getPassword());
+            String token = JwtHelper.createToken(user2.getId(), user2.getPhoneNumber(), user2.getPassword());
             return Result.success(token);
         }
         //已注册：判断密码是否正确，返回结果
         if(user1.getPassword().equals(request.getPassword())) {
-            String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getPassword());
+            String token = JwtHelper.createToken(user1.getId(), user1.getPhoneNumber(), user1.getPassword());
             return Result.success(token);
         }else {
 //            throw new CustomException(401,"密码错误，请重新输入");
@@ -128,14 +138,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public Result changeNickname(@RequestHeader(value = "Authorization", required = true)String jwtToken, String nickname) {
         Long id = JwtHelper.getIdFromToken(jwtToken);
         User user = userMapper.selectById(id);
-        user.setNickname(nickname);
+        userMapper.updateNickname(id,nickname);
         return Result.success();
     }
 
     //用户上传头像
     @Override
-    public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) {
-        return null;
+    public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) throws IOException {
+        //校验图片
+        Long id = JwtHelper.getIdFromToken(jwtToken);
+        System.out.println("id: " + id);
+        User user = userMapper.selectById(id);
+        if(file == null || file.isEmpty()){
+            return Result.error("图片上传失败");
+        }
+        //上传图片并获取url
+        String url = avatarUpdater.uploadAvatar(file);
+        //将url上传到数据库
+        userMapper.updateAvatarUrl(id,url);
+        return Result.success();
     }
 
     //发送验证码

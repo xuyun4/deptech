@@ -22,4 +22,11 @@
         verification_code,code_expiration,created_at,
         updated_at,nickname,avatar_url,status
     </sql>
+
+<!--    <update id="updateAvatarUrl" parameterType="map">-->
+<!--        UPDATE user-->
+<!--        SET avatarUrl = #{avatarUrl}-->
+<!--        WHERE id = #{userId}-->
+<!--    </update>-->
+
 </mapper>
