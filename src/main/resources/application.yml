@@ -7,6 +7,27 @@ spring:
     url: jdbc:mysql://localhost:3306/phone
     username: root
     password: 1234
+
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 123456
+      database: 0  # 默认数据库，用于黑名单等其他数据
+      lettuce:
+        pool: # 连接池
+          max-wait: 300 # 获取连接的最大等待时间
+    redis2:
+      host: localhost
+      port: 6379
+      database: 1
+      password: 123456
+      lettuce:
+        pool:
+          max-wait: 300
+
+
 #mybatis:
 #  configuration:
 #    #配置mybatis的日志,指定输出到控制台
