@@ -1,7 +1,7 @@
 spring:
   application:
-    name: deptech
-  #连接数据库deptech
+    name: daptech
+  #连接数据库daptech
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/phone
@@ -95,6 +95,5 @@ knife4j:
 #    #密码，设置完账号密码后意味着访问ui文档的时候需要输入账号和密码，
 #    password: 1234
 server:
-  port: 8081
+  port: 8080
   address: 0.0.0.0
-
