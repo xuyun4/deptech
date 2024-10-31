@@ -22,6 +22,7 @@ public class JwtHelper {
     //黑名单服务
     private static TokenBlackListService tokenBlackListService;
 
+    //确保在对象完全创建和初始化之后才执行初始化
     @PostConstruct
     public void init() {
         tokenBlackListService = this.tokenBlackListServiceInstance;
@@ -33,12 +34,13 @@ public class JwtHelper {
     }
 
     //创建token
-    public static String createToken(Long id, String phonenumber,String password) {
+    public static String createToken(Long id, String phonenumber,Integer status) {
         String token = Jwts.builder()
                 .setSubject("User")//设置jwt主题为User
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))//token有效时常
                 .claim("id",id)//添加字段
                 .claim("phonenumber",phonenumber)
+                .claim("status",status)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
                 .compact();
         token = "Bearer " + token;//符合规范Bearer {token} 的格式
@@ -100,6 +102,17 @@ public class JwtHelper {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("phonenumber", String.class);
+    }
+
+    //从token中获取status
+    public static Integer getStatusFromToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
+        Claims claims = Jwts.parser()
+                .setSigningKey(tokenSignKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("status", Integer.class);
     }
 
 }
