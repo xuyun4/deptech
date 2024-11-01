@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class findBackPasswordRequest {
+public class FindBackPasswordRequest {
 
     @Schema(example = "11111111111", description = "手机号必须为11位数字")
     @Pattern(regexp = "^\\d{11}$", message = "手机号必须为11位数字")
