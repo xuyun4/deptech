@@ -22,4 +22,5 @@
         verification_code,code_expiration,created_at,
         updated_at,nickname,avatar_url,status
     </sql>
+
 </mapper>

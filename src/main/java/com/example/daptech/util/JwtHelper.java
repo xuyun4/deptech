@@ -2,6 +2,7 @@ package com.example.daptech.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,17 @@ public class JwtHelper {
     private static long tokenExpiration = 24L * 60 * 60 * 1000 * 30;
     // 使用 Keys.secretKeyFor 生成符合HS512算法的安全密钥
     private static final Key tokenSignKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
     @Autowired
+    private TokenBlackListService tokenBlackListServiceInstance;
+    //黑名单服务
     private static TokenBlackListService tokenBlackListService;
+
+    //确保在对象完全创建和初始化之后才执行初始化
+    @PostConstruct
+    public void init() {
+        tokenBlackListService = this.tokenBlackListServiceInstance;
+    }
 
     // 一个公共的静态 getter 方法
     public static Key getTokenSignKey() {
@@ -24,12 +34,13 @@ public class JwtHelper {
     }
 
     //创建token
-    public static String createToken(Long id, String phonenumber,String password) {
+    public static String createToken(Long id, String phonenumber,Integer status) {
         String token = Jwts.builder()
                 .setSubject("User")//设置jwt主题为User
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))//token有效时常
                 .claim("id",id)//添加字段
                 .claim("phonenumber",phonenumber)
+                .claim("status",status)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
                 .compact();
         token = "Bearer " + token;//符合规范Bearer {token} 的格式
@@ -59,6 +70,7 @@ public class JwtHelper {
 
     //解析token
     public static Claims parseToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
@@ -72,6 +84,7 @@ public class JwtHelper {
 
     //从token中获取用户id
     public static Long getIdFromToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
@@ -82,12 +95,24 @@ public class JwtHelper {
 
     //从token中获取phonenumber
     public static String getPhonenumberFromToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("phonenumber", String.class);
+    }
+
+    //从token中获取status
+    public static Integer getStatusFromToken(String token) {
+        token = token.substring(7); // 移除 "Bearer "
+        Claims claims = Jwts.parser()
+                .setSigningKey(tokenSignKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("status", Integer.class);
     }
 
 }

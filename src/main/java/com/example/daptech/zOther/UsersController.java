@@ -1,5 +1,5 @@
 /*
-package com.example.deptech.controller;
+package com.example.daptech.controller;
 
 import com.worldsverre.entity.Result;
 import com.worldsverre.entity.phonenumber.PendingPhone;

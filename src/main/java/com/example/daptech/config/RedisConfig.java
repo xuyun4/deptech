@@ -23,7 +23,7 @@ public class RedisConfig {
     @Bean(name = "defaultLettuceConnectionFactory")
     public LettuceConnectionFactory defaultLettuceConnectionFactory(
             @Qualifier("defaultRedisConfig") RedisStandaloneConfiguration defaultRedisConfig,
-            GenericObjectPoolConfig defaultPoolConfig) {
+            @Qualifier("defaultPoolConfig") GenericObjectPoolConfig defaultPoolConfig) {
         LettuceClientConfiguration clientConfig =
                 LettucePoolingClientConfiguration.builder().commandTimeout(Duration.ofMillis(100))
                         .poolConfig(defaultPoolConfig).build();
@@ -31,7 +31,6 @@ public class RedisConfig {
     }
 
     // 默认 RedisTemplate，连接到数据库 0
-    @Primary
     @Bean(name = "defaultRedisTemplate")
     public RedisTemplate<String, String> defaultRedisTemplate(
             @Qualifier("defaultLettuceConnectionFactory") LettuceConnectionFactory defaultLettuceConnectionFactory) {
@@ -45,7 +44,7 @@ public class RedisConfig {
     @Bean(name = "smsLettuceConnectionFactory")
     public LettuceConnectionFactory smsLettuceConnectionFactory(
             @Qualifier("smsRedisStandaloneConfig") RedisStandaloneConfiguration smsRedisStandaloneConfig,
-            GenericObjectPoolConfig smsPoolConfig) {
+            @Qualifier("smsPoolConfig") GenericObjectPoolConfig smsPoolConfig) {
         LettuceClientConfiguration clientConfig =
                 LettucePoolingClientConfiguration.builder().commandTimeout(Duration.ofMillis(100))
                         .poolConfig(smsPoolConfig).build();
@@ -68,16 +67,16 @@ public class RedisConfig {
     @Primary
     @Configuration
     public static class DefaultRedisConfig {
-        @Value("${spring.redis.host:127.0.0.1}")
+        @Value("${spring.data.redis.host:127.0.0.1}")
         private String host;
-        @Value("${spring.redis.port:6379}")
+        @Value("${spring.data.redis.port:6379}")
         private Integer port;
-        @Value("${spring.redis.password:}")
+        @Value("${spring.data.redis.password:}")
         private String password;
-        @Value("${spring.redis.database:0}")
+        @Value("${spring.data.redis.database:0}")
         private Integer database;
 
-        @Value("${spring.redis.lettuce.pool.max-wait:-1}")
+        @Value("${spring.data.redis.lettuce.pool.max-wait:-1}")
         private Long maxWait;
 
         @Primary
@@ -105,16 +104,16 @@ public class RedisConfig {
      */
     @Configuration
     public static class SmsRedisConfig {
-        @Value("${spring.redis2.host:127.0.0.1}")
+        @Value("${spring.data.redis2.host:127.0.0.1}")
         private String host;
-        @Value("${spring.redis2.port:6379}")
+        @Value("${spring.data.redis2.port:6379}")
         private Integer port;
-        @Value("${spring.redis2.password:}")
+        @Value("${spring.data.redis2.password:}")
         private String password;
-        @Value("${spring.redis2.database:1}")
+        @Value("${spring.data.redis2.database:1}")
         private Integer database;
 
-        @Value("${spring.redis2.lettuce.pool.max-wait:-1}")
+        @Value("${spring.data.redis2.lettuce.pool.max-wait:-1}")
         private Long maxWait;
 
         @Bean(name = "smsPoolConfig")

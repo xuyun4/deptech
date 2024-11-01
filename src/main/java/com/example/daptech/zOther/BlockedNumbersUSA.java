@@ -1,5 +1,5 @@
 /*
-package com.example.deptech.entity.phonenumber;
+package com.example.daptech.entity.phonenumber;
 
 public class BlockedNumbersUSA {
 }

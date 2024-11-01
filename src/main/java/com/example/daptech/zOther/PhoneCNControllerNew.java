@@ -1,5 +1,5 @@
 /*
-package com.example.deptech.controller;
+package com.example.daptech.controller;
 
 import com.worldsverre.entity.MSG;
 import com.worldsverre.entity.Result;

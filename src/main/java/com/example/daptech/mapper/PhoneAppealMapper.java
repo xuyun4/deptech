@@ -10,6 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface PhoneAppealMapper {
+
     @Insert("INSERT INTO phone_appeal (phone, create_time, status) VALUES (#{phone}, #{createTime}, #{status})")
     void insertAppeal(PhoneAppeal appeal);
 
