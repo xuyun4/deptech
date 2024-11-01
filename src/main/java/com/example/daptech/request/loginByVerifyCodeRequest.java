@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 //通过验证码登录请求体
-public class LoginByVerifyCodeRequest {
+public class loginByVerifyCodeRequest {
 
     @Schema(example = "11111111111", description = "手机号必须为11位数字")
     @Pattern(regexp = "^\\d{11}$", message = "手机号必须为11位数字")
