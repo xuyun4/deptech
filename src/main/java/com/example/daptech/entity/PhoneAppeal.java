@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class PhoneAppeal {
     private Integer id;
     private String phone;
-    private long createTime;
+    private Long createTime;
     private Integer status; // 0:待处理 1:申诉成功 2:申诉失败
+    private Long userId;
 }

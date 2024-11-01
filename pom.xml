@@ -208,6 +208,31 @@
             <version>1.10.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/ai.djl/api -->
+        <dependency>
+            <groupId>ai.djl</groupId>
+            <artifactId>api</artifactId>
+            <version>0.26.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ai.djl.pytorch/pytorch-engine -->
+        <dependency>
+            <groupId>ai.djl.pytorch</groupId>
+            <artifactId>pytorch-engine</artifactId>
+            <version>0.26.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ai.djl.spring/djl-spring-boot-starter-autoconfigure -->
+        <dependency>
+            <groupId>ai.djl.spring</groupId>
+            <artifactId>djl-spring-boot-starter-autoconfigure</artifactId>
+            <version>0.26</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.bigmodel.openapi</groupId>
+            <artifactId>oapi-java-sdk</artifactId>
+            <version>release-V4-2.3.0</version>
+        </dependency>
 
 
     </dependencies>

@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -22,18 +19,27 @@ public class PhoneAppealController {
     private final PhoneAppealService phoneAppealService;
 
     @DeleteMapping("/appealByPhoneNumber")
-    public Result appealPhone(String phone,
-                              @RequestHeader("Authorization")String jwtToken){
+    public Result appealPhone(String phone/*,
+                              @RequestHeader("Authorization")String jwtToken*/){
 
-        //获取token，并删除"bearer"前缀
+/*        //获取token，并删除"bearer"前缀
         String token = jwtToken.replace("Bearer ", "");
-        if(!JwtHelper.verifyToken(token)) {
-            phoneAppealService.submitAppeal(phone);
+        if(!JwtHelper.verifyToken(token)) {*/
 
-            return Result.success("申诉提交成功,请等待系统审核");
+
+            return phoneAppealService.submitAppeal(phone, 0L); //需要从token中获取用户id
+/*
         }else{
             return Result.error("登录信息缺失");
         }
+*/
 
     }
+
+    @GetMapping("/getAppeal") //申诉列表,包括审核结果,0表示等待系统审核,1表示审核通过,2表示审核不通过
+    public Result getAppeal(){
+        return phoneAppealService.getAppeal(0L); //需要从token中获取用户id
+    }
+
+
 }

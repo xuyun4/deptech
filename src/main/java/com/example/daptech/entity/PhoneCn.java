@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PhoneCn {
+
     private Integer id;
     private String phone;
     private String type;
     private Integer number;
     private Integer status;  //是否为虚拟号
-    private Integer createTime;
-    private Integer updateTime;
+    private Long  createTime;
+    private Long  updateTime;
     private String location;
     private String information;  //需要提取详细信息,算法待定
 

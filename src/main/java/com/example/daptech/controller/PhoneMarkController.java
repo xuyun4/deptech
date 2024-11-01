@@ -20,19 +20,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class PhoneMarkController {
     private final PhoneMarkService phoneMarkService;
     @PutMapping("/markByPhoneNumber")  //更新手机号的标记信息
-    public Result update(String phoneNumber, String type, String mark,
-                         @RequestHeader("Authorization")String jwtToken) {
+    public Result update(String phoneNumber, String type, String mark/*,
+                         @RequestHeader("Authorization")String jwtToken*/) {
 
+/*
         //获取token，并删除"bearer"前缀
         String token = jwtToken.replace("Bearer ", "");
 
         if(!JwtHelper.verifyToken(token)){
-        phoneMarkService.insertMark(phoneNumber,type,mark);
-        phoneMarkService.updatePhoneMark(phoneNumber);
-        return Result.success("标记成功");
-        }else{
+            Long userId = JwtHelper.getIdFromToken(token);
+*/
+
+            return phoneMarkService.insertMark(phoneNumber,type,mark, 4L);
+/*        }else{
             return Result.error("登录信息缺失");
-        }
+        }*/
     }
 
 }
