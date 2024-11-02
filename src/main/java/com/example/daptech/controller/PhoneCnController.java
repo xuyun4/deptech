@@ -29,16 +29,20 @@ public class PhoneCnController {
 
 
     @GetMapping("/selectByPhoneNumber")  //根据手机号查询联系人
-    public Result selectByPhoneNumber(@RequestParam String phoneNumber,
-                                      @RequestHeader("Authorization")String jwtToken) {
+    public Result selectByPhoneNumber(@RequestParam String phoneNumber/*,
+                                      @RequestHeader("Authorization")String jwtToken*/) {
         //获取token，并删除"bearer"前缀
+/*
         String token = jwtToken.replace("Bearer ", "");
         if(!JwtHelper.verifyToken(token)){
+*/
 
             return phoneCnService.selectByPhoneCn(phoneNumber);
+/*
         }else{
             return Result.error("登录信息缺失");
         }
+*/
 
     }
 

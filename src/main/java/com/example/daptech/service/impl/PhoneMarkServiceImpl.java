@@ -6,14 +6,19 @@ import com.example.daptech.entity.PhoneMark;
 import com.example.daptech.mapper.PendingPhoneMapper;
 import com.example.daptech.mapper.PhoneCnMapper;
 import com.example.daptech.mapper.PhoneMarkMapper;
+import com.example.daptech.response.Result;
 import com.example.daptech.service.PhoneMarkService;
+import com.example.daptech.util.AiUtil;
 import com.example.daptech.util.VirtualAndLocation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -21,13 +26,52 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
     private final PhoneMarkMapper phoneMarkMapper;
     private final PhoneCnMapper phoneCnMapper;
     private final PendingPhoneMapper pendingPhoneMapper;
-    @Override //增加标记数据
-    public void insertMark(String phone, String type, String mark) {
-        Instant now = Instant.now();
 
-        // 获取 Unix 时间戳（秒）
-        long unixTimestampSeconds = now.getEpochSecond();
-        phoneMarkMapper.insertMark(phone, type, mark,unixTimestampSeconds);
+    public boolean canMarkPhoneNumber(Long userId) { //判断是否可以标记手机号,可以为true,否则为false
+        PhoneMark lastMark = phoneMarkMapper.selectLastByUserId(userId);
+        if (lastMark==null) {
+            return  true;
+        }else{
+            Instant now = Instant.now();
+
+            // 获取 Unix 时间戳（秒）
+            long unixTimestampSeconds = now.getEpochSecond();
+
+            long lastTime = lastMark.getCreateTime();
+
+            return (unixTimestampSeconds - lastTime) >= 60; //间隔超过五分钟才可以标记
+        }
+
+    }
+
+    @Override //增加标记数据
+    public Result insertMark(String phone, String type, String mark, Long userId) {
+        if(canMarkPhoneNumber(userId)) {
+
+            Instant now = Instant.now();
+
+            // 获取 Unix 时间戳（秒）
+            long unixTimestampSeconds = now.getEpochSecond();
+            phoneMarkMapper.insertMark(phone, type, mark, unixTimestampSeconds, userId);
+            updatePhoneMark(phone); //更新标记信息
+            updatePhoneInfo(phone); //更新该手机号的被标记详细信息
+            return Result.success("标记成功");
+        }
+        return Result.error("标记操作过于频繁,请一分钟后再试");
+    }
+
+    /*用户新增标记,手机号信息可能发生变化,可能类型发生变化,
+     需要再次从phone_mark中获取新类型的标记,并整合更新到新类型对应的information */
+    private void updatePhoneInfo(String phone) {
+        PhoneCn phoneCn = phoneCnMapper.selectByPhoneCn(phone);
+        String type = phoneCn.getType();
+        List<PhoneMark> phoneMarks = phoneMarkMapper.selectMarkByPhoneAndType(phone, type);
+        List<String> marks = new ArrayList<>();
+        for (PhoneMark phoneMark : phoneMarks) {
+            marks.add(phoneMark.getMark());
+        }
+        String info = AiUtil.summarize(marks);
+        phoneCnMapper.updatePhoneInfo(phone, info);
     }
 
     @Override //插入一条新数据之后,遍历寻找标记次数最多的类型,并将其更新为该手机号的类型
@@ -86,7 +130,7 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
             }else{ //如果pending_phone表中存在该手机号及类型标记,则更新该手机号的标记次数+1
                 pendingPhoneMapper.updatePendingPhone(phoneNumber, types[index],pendingPhone.getTimes()+1);
                 if(pendingPhone.getTimes()+1>=10){ //如果被标记次数超过10次,则加入phone_cn表,并删除pending_phone表中该记录
-                    String location = VirtualAndLocation.getLocation(phoneNumber);
+                    String location = VirtualAndLocation.getLocation(phoneNumber); //获取归属地以及是否为虚拟号
                     Integer virtual = VirtualAndLocation.isVirtual(phoneNumber)? 1 : 0;
                     phoneCnMapper.insertPhoneCn(phoneNumber, types[index], pendingPhone.getTimes()+1, virtual,unixTimestampSeconds,unixTimestampSeconds,location);
                     pendingPhoneMapper.deletePendingPhone(phoneNumber, types[index]);

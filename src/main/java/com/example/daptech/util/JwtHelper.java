@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
+
 @Component
 public class JwtHelper {
 
@@ -21,6 +22,7 @@ public class JwtHelper {
     private TokenBlackListService tokenBlackListServiceInstance;
     //黑名单服务
     private static TokenBlackListService tokenBlackListService;
+
 
     //确保在对象完全创建和初始化之后才执行初始化
     @PostConstruct

@@ -1,7 +1,9 @@
 package com.example.daptech.service;
 
+import com.example.daptech.response.Result;
+
 public interface PhoneMarkService {
-    void insertMark(String phone, String type, String mark);
+    Result insertMark(String phone, String type, String mark, Long userId);
 
 
     void updatePhoneMark(String phoneNumber);

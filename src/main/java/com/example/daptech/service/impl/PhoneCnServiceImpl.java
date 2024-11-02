@@ -12,15 +12,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class PhoneCnServiceImpl implements PhoneCnService {
     private final PhoneCnMapper phoneCnMapper;
-    @Override
-    public String a(int id) {
-        return phoneCnMapper.a(id);
-    }
 
-    @Override
-    public void insertPhoneCn(String phone, String type, Integer number, Integer status, long createTime, long updateTime,String  location) {
-        phoneCnMapper.insertPhoneCn(phone, type, number, status, createTime,updateTime,location);
-    }
+
+
 
     @Override
     public Result selectByPhoneCn(String phone) {
@@ -33,8 +27,4 @@ public class PhoneCnServiceImpl implements PhoneCnService {
 
     }
 
-    @Override
-    public void updatePhoneType(String phone, String type,Integer number,long updateTime) {
-        phoneCnMapper.updatePhoneType(phone, type, number, updateTime);
-    }
 }
