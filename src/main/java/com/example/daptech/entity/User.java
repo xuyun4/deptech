@@ -67,8 +67,6 @@ public class User implements Serializable {
                 "id=" + id +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", password='" + password + '\'' +
-                ", verificationCode='" + verificationCode + '\'' +
-                ", codeExpiration=" + codeExpiration +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", nickname='" + nickname + '\'' +
