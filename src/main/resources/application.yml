@@ -32,7 +32,7 @@ aliyun:
   accessKeySecret: xrh1bk3q9UD5W5hVOvaBWofVtdoYNK
   signName: daptech副本
   templateCode: SMS_474925615
-  endpoint: https://oss-cn-beijing.aliyuncs.com
+  endpoint: oss-cn-beijing.aliyuncs.com
   bucketName: daptech
 #mybatis:
 #  configuration:

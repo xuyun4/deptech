@@ -35,16 +35,6 @@ public class User implements Serializable {
     private String password;
 
     /**
-     * 验证码
-     */
-    private String verificationCode;
-
-    /**
-     * 验证码有效期
-     */
-    private Date codeExpiration;
-
-    /**
      * 用户创建时间
      */
     private Date createdAt;
