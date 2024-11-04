@@ -14,26 +14,27 @@ class DaptechApplicationTests {
 
     @Test
     void contextLoads() {
-        String token = JwtHelper.createToken(12L,"admin",1);
-        System.out.println(token);
-        if(!JwtHelper.verifyToken(token)) {
-            System.out.println("token有效");
-        }else {
-            System.out.println("token无效");
+        String token = JwtHelper.createToken(12L, "admin", 1);
+        if(!JwtHelper.verifyToken(token)){
+            System.out.println("token 有效");
+        }else{
+            System.out.println("token 无效");
         }
+
     }
 
     @Test
     void test() {
-        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiZXhwIjoxNzMzMjg2NDQ1LCJpZCI6MTIsInBob25lbnVtYmVyIjoiYWRtaW4iLCJzdGF0dXMiOjF9.bwfK_YQjcKBeXLQMX0B1xc8DCt7s9mSZCnhLoVXMW4wJaxLpUpQR5-SM24hPL7-MkVNS6RJYQrMchMSVwdCgwA";
-        if(!JwtHelper.verifyToken(token)) {
-            System.out.println("token有效");
-        }else {
-            System.out.println("token无效");
+        String token="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiZXhwIjoxNzMzMjgyNjc2LCJpZCI6MTIsInBob25lbnVtYmVyIjoiYWRtaW4iLCJzdGF0dXMiOjF9.KPlmyRecDbL-4GZIiT3tZb6FUGKplfODtjl2qpVxv5vbxEZ7SdJNo0tsEEcXslq1xsklu1aTNeHWHIxa50QiTQ";
+
+        if(!JwtHelper.verifyToken(token)){
+            System.out.println("token 有效");
+        }else{
+            System.out.println("token 无效");
         }
     }
 
-    @Test
+/*    @Test
     void test2(String phone) {
         String path = "https://hcapi02.api.bdymkt.com/mobile";
         ApiExplorerRequest request = new ApiExplorerRequest(HttpMethodName.GET, path);
@@ -59,7 +60,7 @@ class DaptechApplicationTests {
 
 
 
-    }
+    }*/
 
 
 
