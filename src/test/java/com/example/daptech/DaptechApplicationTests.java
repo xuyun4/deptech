@@ -5,6 +5,7 @@ import com.baidubce.http.AppSigner;
 import com.baidubce.http.HttpMethodName;
 import com.baidubce.model.ApiExplorerRequest;
 import com.baidubce.model.ApiExplorerResponse;
+import com.example.daptech.util.JwtHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,11 +14,23 @@ class DaptechApplicationTests {
 
     @Test
     void contextLoads() {
+        String token = JwtHelper.createToken(12L,"admin",1);
+        System.out.println(token);
+        if(!JwtHelper.verifyToken(token)) {
+            System.out.println("token有效");
+        }else {
+            System.out.println("token无效");
+        }
     }
 
     @Test
     void test() {
-        System.out.println("ccb");
+        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiZXhwIjoxNzMzMjg2NDQ1LCJpZCI6MTIsInBob25lbnVtYmVyIjoiYWRtaW4iLCJzdGF0dXMiOjF9.bwfK_YQjcKBeXLQMX0B1xc8DCt7s9mSZCnhLoVXMW4wJaxLpUpQR5-SM24hPL7-MkVNS6RJYQrMchMSVwdCgwA";
+        if(!JwtHelper.verifyToken(token)) {
+            System.out.println("token有效");
+        }else {
+            System.out.println("token无效");
+        }
     }
 
     @Test

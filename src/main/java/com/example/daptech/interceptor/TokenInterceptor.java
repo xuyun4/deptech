@@ -13,7 +13,7 @@ import java.security.Key;
 
 public class TokenInterceptor implements HandlerInterceptor {
 
-    private final Key tokenSignKey = JwtHelper.getTokenSignKey(); // 签名密钥
+    private final String tokenSignKey = JwtHelper.getTokenSignKey(); // 签名密钥
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

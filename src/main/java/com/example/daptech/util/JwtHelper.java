@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -16,22 +17,27 @@ public class JwtHelper {
     //token有效时常一个月
     private static long tokenExpiration = 24L * 60 * 60 * 1000 * 30;
     // 使用 Keys.secretKeyFor 生成符合HS512算法的安全密钥
-    private static final Key tokenSignKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    //private static final Key tokenSignKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    // 自定义的密钥字符串 (长度推荐至少为 256 位，以确保安全)
+    @Value("${jwt.secret.key}")
+    private String tokenKey;
+
+    private static String tokenSignKey;
 
     @Autowired
     private TokenBlackListService tokenBlackListServiceInstance;
     //黑名单服务
     private static TokenBlackListService tokenBlackListService;
 
-
     //确保在对象完全创建和初始化之后才执行初始化
     @PostConstruct
     public void init() {
         tokenBlackListService = this.tokenBlackListServiceInstance;
+        tokenSignKey = this.tokenKey;
     }
 
     // 一个公共的静态 getter 方法
-    public static Key getTokenSignKey() {
+    public static String getTokenSignKey() {
         return tokenSignKey;
     }
 
@@ -45,7 +51,6 @@ public class JwtHelper {
                 .claim("status",status)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
                 .compact();
-        token = "Bearer " + token;//符合规范Bearer {token} 的格式
         return token;
     }
 
@@ -61,7 +66,7 @@ public class JwtHelper {
                     .build()
                     .parseClaimsJws(token);
             //校验是否过期
-            return !parseToken.getBody().getExpiration().before(new Date());
+            return !parseToken.getBody().getExpiration().after(new Date());
         } catch (ExpiredJwtException e) {
             return true;
         }catch (Exception e) {
@@ -72,7 +77,6 @@ public class JwtHelper {
 
     //解析token
     public static Claims parseToken(String token) {
-        token = token.substring(7); // 移除 "Bearer "
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
@@ -86,7 +90,6 @@ public class JwtHelper {
 
     //从token中获取用户id
     public static Long getIdFromToken(String token) {
-        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
@@ -97,7 +100,6 @@ public class JwtHelper {
 
     //从token中获取phonenumber
     public static String getPhonenumberFromToken(String token) {
-        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
@@ -108,7 +110,6 @@ public class JwtHelper {
 
     //从token中获取status
     public static Integer getStatusFromToken(String token) {
-        token = token.substring(7); // 移除 "Bearer "
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()

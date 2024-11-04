@@ -97,3 +97,7 @@ knife4j:
 server:
   port: 8081
   address: 0.0.0.0
+
+jwt:
+  secret:
+    key: dlajddw90e8qjdlaudajsapidapd2lem1u0mdal321daadwuaiou01293d97ad89adyahe298d7a89dhi21yed98hdaoi
