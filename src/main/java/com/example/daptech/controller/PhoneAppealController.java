@@ -22,27 +22,20 @@ public class PhoneAppealController {
     public Result appealPhone(String phone,
                               @RequestHeader("Authorization")String token){
 
-
-
-        if(!JwtHelper.verifyToken(token)) {
             Long userId = JwtHelper.getIdFromToken(token);
 
             return phoneAppealService.submitAppeal(phone, userId); //需要从token中获取用户id
-        }else{
-            return Result.error("登录信息缺失");
-        }
+
 
     }
 
     @GetMapping("/getAppeal") //申诉列表,包括审核结果,0表示等待系统审核,1表示审核通过,2表示审核不通过
     public Result getAppeal(@RequestHeader("Authorization")String token){
-        if(!JwtHelper.verifyToken(token)) {
+
             Long userId = JwtHelper.getIdFromToken(token);
 
             return phoneAppealService.getAppeal(userId); //需要从token中获取用户id
-        }else{
-            return Result.error("登录信息缺失");
-        }
+
     }
 
 

@@ -29,16 +29,9 @@ public class PhoneCnController {
 
 
     @GetMapping("/selectByPhoneNumber")  //根据手机号查询联系人
-    public Result selectByPhoneNumber(@RequestParam String phoneNumber,
-                                      @RequestHeader("Authorization")String token) {
-
-
-        if(!JwtHelper.verifyToken(token)){
+    public Result selectByPhoneNumber(@RequestParam String phoneNumber) {
 
             return phoneCnService.selectByPhoneCn(phoneNumber);
-        }else{
-            return Result.error("登录信息缺失");
-        }
 
     }
 

@@ -23,14 +23,10 @@ public class PhoneMarkController {
     public Result update(String phoneNumber, String type, String mark,
                          @RequestHeader("Authorization")String token) {
 
-
-        if(!JwtHelper.verifyToken(token)){
             Long userId = JwtHelper.getIdFromToken(token);
 
             return phoneMarkService.insertMark(phoneNumber,type,mark, userId);
-        }else{
-            return Result.error("登录信息缺失");
-        }
+
     }
 
 }
