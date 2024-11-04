@@ -27,7 +27,7 @@ public class UserController {
 
     //通过账号密码登录
     @PostMapping("/loginByPhoneNum")
-    @Operation(summary = "通过账号密码登录")
+    @Operation(summary = "通过账号密码注册登录")
     public Result loginByPhoneNum(@Valid @RequestBody LoginByPhoneNumRequest request) {
         return userService.loginByPhoneNum(request);
     }
@@ -69,7 +69,7 @@ public class UserController {
 
     //用户发送验证码
     @PostMapping("/snedSms")
-    @Operation(summary = "用户发送验证码")
+    @Operation(summary = "给用户发送验证码")
     public Result sendSms(String phonenumber){
         return userService.sendSms(phonenumber);
     }

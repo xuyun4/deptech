@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/call")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@Tag(name = "聊天记录控制器")
+@Tag(name = "来电记录控制器")
 public class CallController {
 
     private final CallService callService;

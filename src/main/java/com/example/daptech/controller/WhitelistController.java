@@ -24,13 +24,13 @@ public class WhitelistController {
 
     //更新白名单表到后端
     @PutMapping("/updateWhitelist")
-    @Operation(summary = "后端更新白名单表")
+    @Operation(summary = "后端更新白名单")
     public Result updateWhitelist(@RequestHeader("Authorization")String token, @Valid @RequestBody List<WhitelistDto> whitelistDtoList) {
         return whitelistService.updateWhitelist(token,whitelistDtoList);
     }
     //查询白名单表,返回前端
     @GetMapping("/getWhitelist")
-    @Operation(summary = "本地更新白名单表")
+    @Operation(summary = "本地更新白名单")
     public Result getWhitelist(@RequestHeader("Authorization")String token) {
         return whitelistService.getWhitelist(token);
     }
