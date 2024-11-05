@@ -76,6 +76,4 @@ public class VirtualAndLocation {
         String location = getLocation(phone);
         System.out.println(location);
     }
-
-
 }

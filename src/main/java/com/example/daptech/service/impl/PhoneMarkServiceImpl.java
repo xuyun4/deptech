@@ -15,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -39,7 +37,7 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
 
             long lastTime = lastMark.getCreateTime();
 
-            return (unixTimestampSeconds - lastTime) >= 60; //间隔超过五分钟才可以标记
+            return (unixTimestampSeconds - lastTime) >= 60; //间隔超过一分钟才可以标记
         }
 
     }
