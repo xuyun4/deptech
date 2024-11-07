@@ -1,13 +1,11 @@
 package com.example.daptech.util;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.Date;
 
 
@@ -51,7 +49,7 @@ public class JwtHelper {
                 .claim("status",status)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
                 .compact();
-        token = "Bearer " + token;
+//        token = "Bearer " + token;
         return token;
     }
 
@@ -61,7 +59,7 @@ public class JwtHelper {
         if(tokenBlackListService.isTokenBlacklisted(token)){
             return true;
         }
-        token = token.substring(7);
+//        token = token.substring(7);
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
@@ -79,7 +77,7 @@ public class JwtHelper {
 
     //解析token
     public static Claims parseToken(String token) {
-        token = token.substring(7);
+//        token = token.substring(7);
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
@@ -93,7 +91,7 @@ public class JwtHelper {
 
     //从token中获取用户id
     public static Long getIdFromToken(String token) {
-        token = token.substring(7);
+//        token = token.substring(7);
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
@@ -104,7 +102,7 @@ public class JwtHelper {
 
     //从token中获取phonenumber
     public static String getPhonenumberFromToken(String token) {
-        token = token.substring(7);
+//        token = token.substring(7);
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
@@ -115,7 +113,7 @@ public class JwtHelper {
 
     //从token中获取status
     public static Integer getStatusFromToken(String token) {
-        token = token.substring(7);
+//        token = token.substring(7);
         Claims claims = Jwts.parser()
                 .setSigningKey(tokenSignKey)
                 .build()
