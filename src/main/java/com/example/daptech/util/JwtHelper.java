@@ -61,7 +61,9 @@ public class JwtHelper {
         if(tokenBlackListService.isTokenBlacklisted(token)){
             return true;
         }
-        token = token.substring(7);
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         try {
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
