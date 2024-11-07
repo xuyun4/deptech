@@ -11,6 +11,7 @@ public interface PendingPhoneMapper {
 
     @Update("UPDATE pending_phone SET times = #{times} WHERE phone = #{phone} AND type = #{type}")
     void updatePendingPhone(String phone,String type,Integer times);
+
     @Select("SELECT * FROM pending_phone WHERE phone = #{phone}")
     PendingPhone selectByPhone(String phone);
 

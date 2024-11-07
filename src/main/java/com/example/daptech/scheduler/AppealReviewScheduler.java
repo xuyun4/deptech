@@ -10,7 +10,7 @@ public class AppealReviewScheduler {
     @Autowired
     private PhoneAppealService phoneAppealService;
 
-    @Scheduled(fixedRate = 60000) // 每分钟执行一次
+    @Scheduled(fixedRate = 60000*60*24) // 每天执行一次
     public void reviewAppeals() {
         phoneAppealService.autoReviewAppeals();
     }

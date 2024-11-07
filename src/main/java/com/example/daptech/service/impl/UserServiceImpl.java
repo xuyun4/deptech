@@ -122,7 +122,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             userMapper.updateById(user);
             String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getStatus());
             return Result.success(token);
-
         }
     }
 

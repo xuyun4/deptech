@@ -5,6 +5,7 @@ import com.example.daptech.request.FindBackPasswordRequest;
 import com.example.daptech.request.LoginByPhoneNumRequest;
 import com.example.daptech.request.LoginByVerifyCodeRequest;
 import com.example.daptech.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,42 +27,49 @@ public class UserController {
 
     //通过账号密码登录
     @PostMapping("/loginByPhoneNum")
+    @Operation(summary = "通过账号密码注册登录")
     public Result loginByPhoneNum(@Valid @RequestBody LoginByPhoneNumRequest request) {
         return userService.loginByPhoneNum(request);
     }
 
     //通过验证码登录
     @PostMapping("/loginByVerifyCode")
+    @Operation(summary = "通过验证码登录")
     public Result loginByVerifyCode(@Valid @RequestBody LoginByVerifyCodeRequest request) {
         return userService.loginByVerifyCode(request);
     }
 
     //找回密码
     @PostMapping("/findBackAcct")
+    @Operation(summary = "找回密码")
     public Result findBackAcct(@Valid @RequestBody FindBackPasswordRequest request) {
         return userService.findBackPassword(request);
     }
 
     //退出登录
     @PostMapping("/logout")
+    @Operation(summary = "退出登录")
     public Result logout(@RequestHeader(value = "Authorization", required = true)String token) {
         return userService.logout(token);
     }
 
     //用户修改昵称
     @PutMapping("/changeNickname")
+    @Operation(summary = "用户修改昵称")
     public Result changeNickname(@RequestHeader(value = "Authorization", required = true)String jwtToken, String nickname){
         return userService.changeNickname(jwtToken,nickname);
     }
 
     //用户上传头像url
     @PutMapping("/updateAvatar")
+    @Operation(summary = "用户上传头像url")
     public Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) throws IOException {
         return userService.updateAvatar(jwtToken,file);
     }
 
     //用户发送验证码
     @PostMapping("/snedSms")
+    @Operation(summary = "给用户发送验证码")
     public Result sendSms(String phonenumber){
         return userService.sendSms(phonenumber);
     }

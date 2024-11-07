@@ -25,7 +25,7 @@ class DaptechApplicationTests {
 
     @Test
     void test() {
-        String token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiZXhwIjoxNzMzNTY0MzI5LCJpZCI6MTIsInBob25lbnVtYmVyIjoiYWRtaW4iLCJzdGF0dXMiOjF9.Xa5Xgy6FKS8Gdxvpya6w-LcSn4lUy40ZVEgU8ouBNEhMZHjgaAmcO1rSU5fExvIca_iEskC_CnHVnXzksAHTlg";
+        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJVc2VyIiwiZXhwIjoxNzMzMjg2NDQ1LCJpZCI6MTIsInBob25lbnVtYmVyIjoiYWRtaW4iLCJzdGF0dXMiOjF9.bwfK_YQjcKBeXLQMX0B1xc8DCt7s9mSZCnhLoVXMW4wJaxLpUpQR5-SM24hPL7-MkVNS6RJYQrMchMSVwdCgwA";
         if(!JwtHelper.verifyToken(token)) {
             System.out.println("token有效");
         }else {

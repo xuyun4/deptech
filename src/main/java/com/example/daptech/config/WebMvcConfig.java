@@ -12,9 +12,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new TokenInterceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/**")
-                .excludePathPatterns("/phoneCn/**")
-                .excludePathPatterns("/phoneAppeal/**")
-                .excludePathPatterns("/phoneMark/**")
                 .excludePathPatterns("/swagger-ui.html","/doc.html","/swagger-ui/**", "/v3/api-docs/**",
                         "/swagger-resources/**", "/webjars/**", "/swagger-ui/index.html#");
     }

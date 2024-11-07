@@ -1,8 +1,10 @@
 package com.example.daptech.service.impl;
 
 import com.example.daptech.entity.PhoneAppeal;
+import com.example.daptech.entity.PhoneCn;
 import com.example.daptech.entity.PhoneMark;
 import com.example.daptech.mapper.PhoneAppealMapper;
+import com.example.daptech.mapper.PhoneCnMapper;
 import com.example.daptech.mapper.PhoneMarkMapper;
 import com.example.daptech.response.Result;
 import com.example.daptech.service.PhoneAppealService;
@@ -19,6 +21,7 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
 
     private final PhoneAppealMapper phoneAppealMapper;
     private final PhoneMarkMapper phoneMarkMapper;
+    private final PhoneCnMapper phoneCnMapper;
 
     // 获取当前时间的 Instant 对象
     Instant now = Instant.now();
@@ -94,7 +97,7 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
     private void approveAppeal(PhoneAppeal appeal) {
         appeal.setStatus(1); // 审核通过
         phoneAppealMapper.updateAppealStatus(appeal);
-
+        phoneCnMapper.deletePhoneCn(appeal.getPhone());
     }
 
     private void rejectAppeal(PhoneAppeal appeal) {
