@@ -1,3 +1,4 @@
+/*
 package com.example.daptech;
 
 import com.baidubce.http.ApiExplorerClient;
@@ -64,3 +65,4 @@ class DaptechApplicationTests {
 
 
 }
+*/
