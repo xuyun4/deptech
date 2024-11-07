@@ -30,6 +30,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         try {
             // 解析 token
+            if (token != null && token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
             Jws<Claims> parseToken = Jwts.parser()
                     .setSigningKey(tokenSignKey)
                     .build()
