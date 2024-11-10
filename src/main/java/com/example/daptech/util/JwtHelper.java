@@ -40,12 +40,13 @@ public class JwtHelper {
     }
 
     //创建token
-    public static String createToken(Long id, String phonenumber,Integer status) {
+    public static String createToken(Long id, String phonenumber,String nickname,Integer status) {
         String token = Jwts.builder()
                 .setSubject("User")//设置jwt主题为User
                 .setExpiration(new Date(System.currentTimeMillis() + tokenExpiration))//token有效时常
                 .claim("id",id)//添加字段
                 .claim("phonenumber",phonenumber)
+                .claim("nickname",nickname)
                 .claim("status",status)
                 .signWith(SignatureAlgorithm.HS512, tokenSignKey)// 使用 HS512 签名算法和密钥 `tokenSignKey` 签名 JWT)
                 .compact();

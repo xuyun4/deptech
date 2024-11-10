@@ -65,12 +65,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             userMapper.insert(user);
             User user2 = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", user.getPhoneNumber()));
             //给用户分发token
-            String token = JwtHelper.createToken(user2.getId(), user2.getPhoneNumber(), user2.getStatus());
+            String token = JwtHelper.createToken(user2.getId(), user2.getPhoneNumber(),user2.getNickname() ,user2.getStatus());
             return Result.success(token);
         }
         //已注册：判断密码是否正确，返回结果
         if(user1.getPassword().equals(request.getPassword())) {
-            String token = JwtHelper.createToken(user1.getId(), user1.getPhoneNumber(), user1.getStatus());
+            String token = JwtHelper.createToken(user1.getId(), user1.getPhoneNumber(),user1.getNickname(), user1.getStatus());
             return Result.success(token);
         }else {
 //            throw new CustomException(401,"密码错误，请重新输入");
@@ -92,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         else if (!smsSender.verifyCode(request.getPhoneNumber(), request.getVerifyCode())) {
             return Result.error("验证码错误");
         }
-        String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getStatus());
+        String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(),user.getNickname(), user.getStatus());
         return Result.success(token);
     }
 
@@ -120,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             //都通过颁发token并将用户信息存入数据库
             user.setPassword(request.getPassword());
             userMapper.updateById(user);
-            String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(), user.getStatus());
+            String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(),user.getNickname() , user.getStatus());
             return Result.success(token);
         }
     }
