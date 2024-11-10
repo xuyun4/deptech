@@ -1,10 +1,12 @@
 package com.example.daptech.controller;
 
+import com.example.daptech.entity.UserInfo;
 import com.example.daptech.response.Result;
 import com.example.daptech.request.FindBackPasswordRequest;
 import com.example.daptech.request.LoginByPhoneNumRequest;
 import com.example.daptech.request.LoginByVerifyCodeRequest;
 import com.example.daptech.service.UserService;
+import com.example.daptech.util.JwtHelper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -72,5 +74,12 @@ public class UserController {
     @Operation(summary = "给用户发送验证码")
     public Result sendSms(String phonenumber){
         return userService.sendSms(phonenumber);
+    }
+
+    //根据token获取用户信息
+    @GetMapping("/getInfo")
+    @Operation(summary = "获取用户信息")
+    public Result getInfo(@RequestHeader(value = "Authorization", required = true)String token){
+        return userService.getInfo(token);
     }
 }
