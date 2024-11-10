@@ -32,4 +32,6 @@ public interface UserService extends IService<User> {
     Result updateAvatar(@RequestHeader(value = "Authorization", required = true)String jwtToken, MultipartFile file) throws IOException;
     //用户发送验证码
     Result sendSms(String phonenumber);
+    //获取用户信息
+    Result getInfo(@RequestHeader(value = "Authorization", required = true)String jwtToken);
 }

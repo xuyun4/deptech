@@ -116,6 +116,17 @@ public class JwtHelper {
         return claims.get("phonenumber", String.class);
     }
 
+    //从token中获取NickName
+    public static String getNickNameFromToken(String token) {
+        token = token.substring(7);
+        Claims claims = Jwts.parser()
+                .setSigningKey(tokenSignKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("nickname", String.class);
+    }
+
     //从token中获取status
     public static Integer getStatusFromToken(String token) {
         token = token.substring(7);

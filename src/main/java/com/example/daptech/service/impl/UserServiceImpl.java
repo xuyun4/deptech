@@ -2,6 +2,7 @@ package com.example.daptech.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.daptech.entity.UserInfo;
 import com.example.daptech.util.JwtHelper;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.User;
@@ -177,6 +178,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         smsSender.sendVerificationCode(phonenumber);
         return Result.success();
     }
+
+    @Override
+    public Result getInfo(String token) {
+        UserInfo info = new UserInfo(JwtHelper.getIdFromToken(token),JwtHelper.getPhonenumberFromToken(token),
+                JwtHelper.getNickNameFromToken(token),JwtHelper.getStatusFromToken(token));
+        return Result.success(info);
+    }
+
 }
 
 
