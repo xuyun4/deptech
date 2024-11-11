@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -23,7 +20,7 @@ public class PhoneCnController {
 
     @GetMapping("/selectByPhoneNumber")  //根据手机号查询号码信息
     @Operation(summary = "查询号码信息")
-    public Result selectByPhoneNumber(@RequestParam String phoneNumber) {
+    public Result selectByPhoneNumber(@RequestHeader("Authorization")String token,@RequestParam String phoneNumber) {
 
             return phoneCnService.selectByPhoneCn(phoneNumber);
 
