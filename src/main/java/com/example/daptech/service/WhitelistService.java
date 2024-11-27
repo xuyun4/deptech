@@ -1,6 +1,7 @@
 package com.example.daptech.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.daptech.entity.vo.WhitelistVo;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.Whitelist;
 import com.example.daptech.entity.dto.WhitelistDto;
@@ -11,5 +12,5 @@ public interface WhitelistService extends IService<Whitelist> {
 
     Result updateWhitelist(String token, List<WhitelistDto> whitelistDtoList);
 
-    Result getWhitelist(String token);
+    Result<List<WhitelistVo>> getWhitelist(String token);
 }

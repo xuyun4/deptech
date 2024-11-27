@@ -1,5 +1,6 @@
 package com.example.daptech.controller;
 
+import com.example.daptech.entity.vo.WhitelistVo;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.dto.WhitelistDto;
 import com.example.daptech.service.WhitelistService;
@@ -31,7 +32,7 @@ public class WhitelistController {
     //查询白名单表,返回前端
     @GetMapping("/getWhitelist")
     @Operation(summary = "本地更新白名单")
-    public Result getWhitelist(@RequestHeader("Authorization")String token) {
+    public Result<List<WhitelistVo>> getWhitelist(@RequestHeader("Authorization")String token) {
         return whitelistService.getWhitelist(token);
     }
 }

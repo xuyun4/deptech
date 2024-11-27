@@ -1,7 +1,8 @@
 package com.example.daptech.controller;
 
-import com.example.daptech.response.Result;
 import com.example.daptech.entity.dto.BlacklistDto;
+import com.example.daptech.entity.vo.BlacklistVo;
+import com.example.daptech.response.Result;
 import com.example.daptech.service.BlacklistService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,7 +32,7 @@ public class BlacklistController {
     //查询黑名单表,返回前端
     @GetMapping("/getBlacklist")
     @Operation(summary = "本地更新黑名单")
-    public Result getBlacklist(@RequestHeader("Authorization")String token) {
+    public Result<List<BlacklistVo>> getBlacklist(@RequestHeader("Authorization")String token) {
         return blacklistService.getBlacklist(token);
     }
 }

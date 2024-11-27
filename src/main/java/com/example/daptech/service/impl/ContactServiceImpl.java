@@ -40,7 +40,7 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact> impl
     }
 
     @Override
-    public Result getContact(String token) {
+    public Result<List<ContactVo>> getContact(String token) {
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Contact> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);

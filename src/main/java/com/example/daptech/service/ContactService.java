@@ -2,6 +2,7 @@ package com.example.daptech.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.daptech.entity.Contact;
+import com.example.daptech.entity.vo.ContactVo;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.dto.ContactDto;
 
@@ -11,5 +12,5 @@ public interface ContactService extends IService<Contact> {
 
     Result updateContact(String token, List<ContactDto> contactDtoList);
 
-    Result getContact(String token);
+    Result<List<ContactVo>> getContact(String token);
 }

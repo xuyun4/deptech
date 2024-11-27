@@ -1,5 +1,6 @@
 package com.example.daptech.controller;
 
+import com.example.daptech.entity.vo.CallVo;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.dto.CallDto;
 import com.example.daptech.service.CallService;
@@ -32,7 +33,7 @@ public class CallController {
     //查询来电记录,返回前端
     @GetMapping("/getCall")
     @Operation(summary = "本地更新来电记录")
-    public Result getCall(@RequestHeader("Authorization") String token) {
+    public Result<List<CallVo>> getCall(@RequestHeader("Authorization") String token) {
         return callService.getCall(token);
     }
 }

@@ -39,7 +39,7 @@ public class BlacklistServiceImpl extends ServiceImpl<BlacklistMapper, Blacklist
     }
 
     @Override
-    public Result getBlacklist(String token) {
+    public Result<List<BlacklistVo>> getBlacklist(String token) {
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Blacklist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);

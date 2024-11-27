@@ -1,5 +1,6 @@
 package com.example.daptech.controller;
 
+import com.example.daptech.entity.vo.ContactVo;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.dto.ContactDto;
 import com.example.daptech.service.ContactService;
@@ -31,7 +32,7 @@ public class ContactController {
         //查询联系人表,返回前端
         @GetMapping("/getContact")
         @Operation(summary = "本地更新联系人")
-        public Result getContact(@RequestHeader("Authorization")String token) {
+        public Result<List<ContactVo>> getContact(@RequestHeader("Authorization")String token) {
                 return contactService.getContact(token);
         }
 }

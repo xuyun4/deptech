@@ -39,7 +39,7 @@ public class WhitelistServiceImpl extends ServiceImpl<WhitelistMapper, Whitelist
     }
 
     @Override
-    public Result getWhitelist(String token) {
+    public Result<List<WhitelistVo>> getWhitelist(String token) {
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Whitelist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);

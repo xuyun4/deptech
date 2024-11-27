@@ -40,7 +40,7 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements Ca
     }
 
     @Override
-    public Result getCall(String token) {
+    public Result<List<CallVo>> getCall(String token) {
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Call> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
