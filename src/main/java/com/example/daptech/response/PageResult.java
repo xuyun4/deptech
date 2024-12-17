@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PageResult implements Serializable {
-    private long toal;
+    private long total;
     private List records;
 }
