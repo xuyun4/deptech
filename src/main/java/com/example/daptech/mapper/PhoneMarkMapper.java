@@ -26,4 +26,6 @@ public interface PhoneMarkMapper {
     long countByPhoneNumberAndCreatedAtAfter(String phoneNumber, long createTime);
 
 
+    @Select("SELECT COUNT(*) FROM phone_mark WHERE phone = #{phone}")
+    Integer getCountByPhone(String phone);
 }

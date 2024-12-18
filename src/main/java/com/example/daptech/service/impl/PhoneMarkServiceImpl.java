@@ -125,7 +125,7 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
             if(pendingPhone==null){ //如果pending_phone表中不存在该手机号与该类型的记录,则插入该手机号类型数据
                 pendingPhoneMapper.insertPendingPhone(phoneNumber, types[index],1);
 
-            }else{ //如果pending_phone表中存在该手机号及类型标记,则更新该手机号的标记次数+1
+            }else{ //如果pending_phone表中存在该手机号及类型标记,则更新该记录的标记次数+1
                 pendingPhoneMapper.updatePendingPhone(phoneNumber, types[index],pendingPhone.getTimes()+1);
                 if(pendingPhone.getTimes()+1>=10){ //如果被标记次数超过10次,则加入phone_cn表,并删除pending_phone表中该记录
                     String location = VirtualAndLocation.getLocation(phoneNumber); //获取归属地以及是否为虚拟号

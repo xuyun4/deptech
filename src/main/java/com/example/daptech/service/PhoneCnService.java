@@ -1,6 +1,7 @@
 package com.example.daptech.service;
 
 import com.example.daptech.entity.PhoneCn;
+import com.example.daptech.entity.vo.PhoneCnVo;
 import com.example.daptech.response.Result;
 
 public interface PhoneCnService  {
@@ -10,7 +11,7 @@ public interface PhoneCnService  {
      * @param phone
      * @return
      */
-    Result<PhoneCn> selectByPhoneCn(String phone);
+    Result<PhoneCnVo> selectByPhoneCn(String phone);
 
 
 

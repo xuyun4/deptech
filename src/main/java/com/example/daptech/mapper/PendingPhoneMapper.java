@@ -3,6 +3,8 @@ package com.example.daptech.mapper;
 import com.example.daptech.entity.PendingPhone;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface PendingPhoneMapper {
 
@@ -14,7 +16,7 @@ public interface PendingPhoneMapper {
     void updatePendingPhone(String phone,String type,Integer times);
 
     @Select("SELECT * FROM pending_phone WHERE phone = #{phone}")
-    PendingPhone selectByPhone(String phone);
+    List<PendingPhone> selectByPhone(String phone);
 
     @Select("SELECT * FROM pending_phone WHERE phone = #{phone} AND type = #{type}")
     PendingPhone selectByPhoneAndType(String phone,String type);
