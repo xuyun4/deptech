@@ -17,5 +17,4 @@ public class Contact {
     private String name;
     private String phoneNumber;
     private Long userId;
-    private Integer deleted;
 }

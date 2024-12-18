@@ -17,5 +17,4 @@ public class Whitelist {
     private String name;
     private String phoneNumber;
     private Long userId;
-    private Integer deleted;
 }

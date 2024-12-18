@@ -13,4 +13,5 @@ public class CallVo {
     private String name;
     private String phoneNumber;
     private LocalDateTime time;
+    private String type;
 }

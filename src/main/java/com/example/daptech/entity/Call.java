@@ -20,5 +20,5 @@ public class Call {
     private String phoneNumber;
     private LocalDateTime time;
     private Long userId;
-    private Integer deleted;
+    private String type;
 }
