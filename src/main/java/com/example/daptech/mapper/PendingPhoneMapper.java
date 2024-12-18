@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface PendingPhoneMapper {
 
+
     @Insert("INSERT INTO pending_phone (phone,type,times) VALUES (#{phone},#{type},#{times})")
     void insertPendingPhone(String phone,String type,Integer times);
 

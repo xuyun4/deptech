@@ -14,7 +14,7 @@ public class PhoneCnServiceImpl implements PhoneCnService {
     private final PhoneCnMapper phoneCnMapper;
 
     @Override
-    public Result selectByPhoneCn(String phone) {
+    public Result<PhoneCn> selectByPhoneCn(String phone) {
 
         PhoneCn phoneCn = phoneCnMapper.selectByPhoneCn(phone);
         if(phoneCn == null){

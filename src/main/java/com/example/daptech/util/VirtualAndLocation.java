@@ -31,7 +31,6 @@ public class VirtualAndLocation {
 
     /**
      * 判断国内电话号码是否为虚拟号
-     *
      * @param phoneNumber 电话号码
      * @return 是否为虚拟号
      */

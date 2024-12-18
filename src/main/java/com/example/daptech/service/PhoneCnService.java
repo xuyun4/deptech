@@ -5,7 +5,12 @@ import com.example.daptech.response.Result;
 
 public interface PhoneCnService  {
 
-    Result selectByPhoneCn(String phone);
+    /**
+     * 查询手机信息
+     * @param phone
+     * @return
+     */
+    Result<PhoneCn> selectByPhoneCn(String phone);
 
 
 

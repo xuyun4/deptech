@@ -76,12 +76,9 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
     }
 
     @Override
-    public Result getAppeal(Long userId) {
+    public Result<List<PhoneAppeal>> getAppeal(Long userId) {
         List<PhoneAppeal> appeals = phoneAppealMapper.findAppeal(userId);
 
-        if(appeals.isEmpty()){
-            return Result.error("无申诉信息");
-        }
         return Result.success(appeals);
     }
 

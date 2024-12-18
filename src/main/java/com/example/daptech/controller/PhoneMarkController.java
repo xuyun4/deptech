@@ -19,7 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Tag(name = "号码标记控制器")
 public class PhoneMarkController {
+
     private final PhoneMarkService phoneMarkService;
+
+    /**
+     * 更新手机号的标记信息
+     * @param phoneNumber 手机号
+     * @param type 标记类型
+     * @param mark 标记内容
+     * @param token 用户token
+     * @return Result
+     */
     @PutMapping("/markByPhoneNumber")  //更新手机号的标记信息
     @Operation(summary = "更新号码的标记信息")
     public Result update(String phoneNumber, String type, String mark,

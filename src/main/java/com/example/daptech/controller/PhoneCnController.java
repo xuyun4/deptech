@@ -1,5 +1,6 @@
 package com.example.daptech.controller;
 
+import com.example.daptech.entity.PhoneCn;
 import com.example.daptech.response.Result;
 import com.example.daptech.service.PhoneCnService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,9 +19,15 @@ public class PhoneCnController {
     private final PhoneCnService phoneCnService;
 
 
+    /**
+     * 新增号码信息
+     * @param token
+     * @param phoneNumber
+     * @return
+     */
     @GetMapping("/selectByPhoneNumber")  //根据手机号查询号码信息
     @Operation(summary = "查询号码信息")
-    public Result selectByPhoneNumber(@RequestHeader("Authorization")String token,@RequestParam String phoneNumber) {
+    public Result<PhoneCn> selectByPhoneNumber(@RequestHeader("Authorization")String token, @RequestParam String phoneNumber) {
 
             return phoneCnService.selectByPhoneCn(phoneNumber);
 
