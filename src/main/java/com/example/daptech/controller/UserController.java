@@ -30,21 +30,21 @@ public class UserController {
     //通过账号密码登录
     @PostMapping("/loginByPhoneNum")
     @Operation(summary = "通过账号密码注册登录")
-    public Result loginByPhoneNum(@Valid @RequestBody LoginByPhoneNumRequest request) {
+    public Result<String> loginByPhoneNum(@Valid @RequestBody LoginByPhoneNumRequest request) {
         return userService.loginByPhoneNum(request);
     }
 
     //通过验证码登录
     @PostMapping("/loginByVerifyCode")
     @Operation(summary = "通过验证码登录")
-    public Result loginByVerifyCode(@Valid @RequestBody LoginByVerifyCodeRequest request) {
+    public Result<String> loginByVerifyCode(@Valid @RequestBody LoginByVerifyCodeRequest request) {
         return userService.loginByVerifyCode(request);
     }
 
     //找回密码
     @PostMapping("/findBackAcct")
     @Operation(summary = "找回密码")
-    public Result findBackAcct(@Valid @RequestBody FindBackPasswordRequest request) {
+    public Result<String> findBackAcct(@Valid @RequestBody FindBackPasswordRequest request) {
         return userService.findBackPassword(request);
     }
 
@@ -79,7 +79,7 @@ public class UserController {
     //根据token获取用户信息
     @GetMapping("/getInfo")
     @Operation(summary = "获取用户信息")
-    public Result getInfo(@RequestHeader(value = "Authorization", required = true)String token){
+    public Result<UserInfo> getInfo(@RequestHeader(value = "Authorization", required = true)String token){
         return userService.getInfo(token);
     }
 }

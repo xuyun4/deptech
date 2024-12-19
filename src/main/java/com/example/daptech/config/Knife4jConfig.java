@@ -23,7 +23,7 @@ public class Knife4jConfig {
                         //设置联系方式
                         .contact(new Contact().name("银").email("3512036490@qq.com")))
                 //指定外部文档资源
-                .externalDocs(new ExternalDocumentation().description("springboot基础框架").url("http://localhost:8080"));
+                .externalDocs(new ExternalDocumentation().description("springboot基础框架").url("http://localhost:8081"));
     }
 
     //分组

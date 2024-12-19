@@ -1,5 +1,6 @@
 package com.example.daptech.service;
 
+import com.example.daptech.entity.UserInfo;
 import com.example.daptech.request.FindBackPasswordRequest;
 import com.example.daptech.request.LoginByPhoneNumRequest;
 import com.example.daptech.request.LoginByVerifyCodeRequest;
@@ -19,11 +20,11 @@ import java.io.IOException;
 */
 public interface UserService extends IService<User> {
     //用户账号密码登录或注册
-    Result loginByPhoneNum(@RequestBody LoginByPhoneNumRequest request);
+    Result<String> loginByPhoneNum(@RequestBody LoginByPhoneNumRequest request);
     //用户验证码登录
-    Result loginByVerifyCode(@RequestBody LoginByVerifyCodeRequest request);
+    Result<String> loginByVerifyCode(@RequestBody LoginByVerifyCodeRequest request);
     //用户找回密码
-    Result findBackPassword(@RequestBody FindBackPasswordRequest request);
+    Result<String> findBackPassword(@RequestBody FindBackPasswordRequest request);
     //用户退出登录
     Result logout(@RequestHeader(value = "Authorization", required = true)String jwtToken);
     //用户修改昵称
@@ -33,5 +34,5 @@ public interface UserService extends IService<User> {
     //用户发送验证码
     Result sendSms(String phonenumber);
     //获取用户信息
-    Result getInfo(@RequestHeader(value = "Authorization", required = true)String jwtToken);
+    Result<UserInfo> getInfo(@RequestHeader(value = "Authorization", required = true)String jwtToken);
 }

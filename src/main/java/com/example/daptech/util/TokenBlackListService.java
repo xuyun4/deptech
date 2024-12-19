@@ -21,6 +21,11 @@ public class TokenBlackListService {
         Claims claims = JwtHelper.parseToken(token);
         Date expiration = claims.getExpiration();
 
+        //删去前缀
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
         // 将 Token 放入 Redis，并设置它的过期时间等于 JWT Token 的过期时间
         defaultRedisTemplate.opsForValue().set(token, "blacklisted", expiration.getTime() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
