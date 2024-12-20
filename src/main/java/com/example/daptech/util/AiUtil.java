@@ -33,6 +33,11 @@ public class AiUtil {
         String text = String.join(" ", sentences);
         return aiCaller("下文为不同用户对同一个来电手机号的评价信息,请对其进行总结概括,排除无效信息,选取高频重点词汇,要求结果为一句描述性的话:"+text);
     }
+
+    public static String summarizeUS(List<String> sentences) {
+        String text = String.join(" ", sentences);
+        return aiCaller("下文为不同用户对同一个来电手机号的评价信息,请对其进行总结概括,排除无效信息,选取高频重点词汇,要求结果为一句描述性的英文句子:"+text);
+    }
     /**
      * 调用AI接口(同步)
      *
@@ -88,8 +93,10 @@ public class AiUtil {
         sentences.add("1233123");
         sentences.add("45345");
         sentences.add("676767");
-        String result = summarize(sentences);
-        System.out.println(result);
+        String result1 = summarizeUS(sentences);
+/*        String result2 = summarize(sentences);*/
+        System.out.println(result1);
+/*        System.out.println(result2);*/
     }
 
 }
