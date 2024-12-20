@@ -56,12 +56,13 @@ public class JwtHelper {
 
     //校验token(已经过期返回true，否则返回false)
     public static boolean verifyToken(String token) {
+
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         //如果token在黑名单中则失效
         if(tokenBlackListService.isTokenBlacklisted(token)){
             return true;
-        }
-        if (token.startsWith("Bearer ")) {
-            token = token.substring(7);
         }
         try {
             Jws<Claims> parseToken = Jwts.parser()

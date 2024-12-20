@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.daptech.response.Result.success;
+
 /**
 * @author 24333
 * @description 针对表【user】的数据库操作Service实现
@@ -51,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     //用户账号密码登录或注册
     @Override
-    public Result loginByPhoneNum(@RequestBody LoginByPhoneNumRequest request) {
+    public Result<String> loginByPhoneNum(@RequestBody LoginByPhoneNumRequest request) {
         //创建User对象
         User user = new User();
         user.setPhoneNumber(request.getPhoneNumber());
@@ -72,7 +74,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         //已注册：判断密码是否正确，返回结果
         if(user1.getPassword().equals(request.getPassword())) {
             String token = JwtHelper.createToken(user1.getId(), user1.getPhoneNumber(),user1.getNickname(), user1.getStatus());
-            return Result.success(token);
+            return success(token);
         }else {
 //            throw new CustomException(401,"密码错误，请重新输入");
             return Result.error("密码错误，请重新输入");
@@ -82,7 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     //用户验证码登录
     @Override
-    public Result loginByVerifyCode(@RequestBody LoginByVerifyCodeRequest request) {
+    public Result<String> loginByVerifyCode(@RequestBody LoginByVerifyCodeRequest request) {
         //根据phonenumber找到该用户
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", request.getPhoneNumber()));
         //如果不存在该用户，抛出异常
@@ -94,12 +96,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.error("验证码错误");
         }
         String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(),user.getNickname(), user.getStatus());
-        return Result.success(token);
+        return success(token);
     }
 
     //用户找回密码
     @Override
-    public Result findBackPassword(@RequestBody FindBackPasswordRequest request) {
+    public Result<String> findBackPassword(@RequestBody FindBackPasswordRequest request) {
         //根据phonenumber找到该用户
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("phone_number", request.getPhonenumber()));
         //如果不存在该用户，抛出异常
@@ -122,7 +124,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             user.setPassword(request.getPassword());
             userMapper.updateById(user);
             String token = JwtHelper.createToken(user.getId(), user.getPhoneNumber(),user.getNickname() , user.getStatus());
-            return Result.success(token);
+            return success(token);
         }
     }
 
@@ -131,7 +133,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public Result logout(@RequestHeader(value = "Authorization", required = true)String jwtToken) {
         //将当前token加入黑名单
         tokenBlackListService.addTokenToBlacklist(jwtToken);
-        return Result.success();
+        return success();
     }
 
     //用户修改昵称
@@ -140,7 +142,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         Long id = JwtHelper.getIdFromToken(jwtToken);
         User user = userMapper.selectById(id);
         userMapper.updateNickname(id,nickname);
-        return Result.success();
+        return success();
     }
 
     //用户上传头像
@@ -161,7 +163,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 //        map.put("avatarUrl",url);
 //        map.put("id",id);
 //        userMapper.updateAvatarUrl(map);
-        return Result.success();
+        return success();
     }
 
     //发送验证码
@@ -176,14 +178,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         //如果存在用户，发送验证码
         smsSender.sendVerificationCode(phonenumber);
-        return Result.success();
+        return success();
     }
 
     @Override
-    public Result getInfo(String token) {
-        UserInfo info = new UserInfo(JwtHelper.getIdFromToken(token),JwtHelper.getPhonenumberFromToken(token),
-                JwtHelper.getNickNameFromToken(token),JwtHelper.getStatusFromToken(token));
-        return Result.success(info);
+    public Result<UserInfo> getInfo(String token) {
+        Long id = JwtHelper.getIdFromToken(token);
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", id));
+        UserInfo info = new UserInfo(user.getId(),user.getPhoneNumber(),
+                user.getNickname(),user.getStatus());
+        return success(info);
     }
 
 }
