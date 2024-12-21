@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/phoneCn")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@Tag(name = "号码信息控制器")
+@Tag(name = "CN号码信息控制器")
 public class PhoneCnController {
     private final PhoneCnService phoneCnService;
 

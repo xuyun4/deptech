@@ -2,10 +2,10 @@ package com.example.daptech.service.impl;
 
 import com.example.daptech.entity.PhoneAppeal;
 import com.example.daptech.entity.PhoneCn;
-import com.example.daptech.entity.PhoneMark;
 import com.example.daptech.mapper.PhoneAppealMapper;
 import com.example.daptech.mapper.PhoneCnMapper;
 import com.example.daptech.mapper.PhoneMarkMapper;
+import com.example.daptech.mapper.PhoneUsMapper;
 import com.example.daptech.response.Result;
 import com.example.daptech.service.PhoneAppealService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,7 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
     private final PhoneAppealMapper phoneAppealMapper;
     private final PhoneMarkMapper phoneMarkMapper;
     private final PhoneCnMapper phoneCnMapper;
+    private final PhoneUsMapper phoneUsMapper;
 
     // 获取当前时间的 Instant 对象
     Instant now = Instant.now();
@@ -63,14 +64,20 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
     @Override
     public void autoReviewAppeals() {  //自动审核号码申诉
         List<PhoneAppeal> pendingAppeals = phoneAppealMapper.findPendingAppeals(); //找到所有待审核的申诉
+
         for (PhoneAppeal appeal : pendingAppeals) { //对于每一条待审核的申诉,判断当天是否有五次以上标记
+
+            int country = cnOrUs(appeal.getPhone());
             if (isAppealApproved(appeal)) { //标记小于等于五次,则不会审核失败
+
                 if(appeal.getCreateTime() < (unixTimestampSeconds - 7 * 24 * 60 * 60)) {//如果此时已经超过七天,则审核通过,否则等待下一次审核
-                    approveAppeal(appeal);
+
+                    approveAppeal(appeal,country);
                     phoneMarkMapper.deleteMark(appeal.getPhone(), appeal.getCreateTime());
                 }
             } else { //标记大于五次,则审核失败
-                rejectAppeal(appeal);
+
+                rejectAppeal(appeal,country);
             }
         }
     }
@@ -91,16 +98,35 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
         return markCount <= 5;
     }
 
-    private void approveAppeal(PhoneAppeal appeal) {
+    private void approveAppeal(PhoneAppeal appeal,int country) {
+
         appeal.setStatus(1); // 审核通过
         phoneAppealMapper.updateAppealStatus(appeal);
-        phoneCnMapper.deletePhoneCn(appeal.getPhone());
+        if(country == 1) {
+
+            phoneCnMapper.deletePhoneCn(appeal.getPhone());
+        }else{
+            phoneUsMapper.deletePhoneUs(appeal.getPhone());
+        }
     }
 
-    private void rejectAppeal(PhoneAppeal appeal) {
+    private void rejectAppeal(PhoneAppeal appeal, int country) {
         appeal.setStatus(2); // 审核不通过
-        phoneAppealMapper.updateAppealStatus(appeal);
+        if(country==1) {
+            phoneAppealMapper.updateAppealStatus(appeal);
+        }else{
+            phoneAppealMapper.updateAppealStatus(appeal);
+        }
 
+    }
+
+    private int cnOrUs(String phone){
+        PhoneCn phoneCn = phoneCnMapper.selectByPhoneCn(phone);
+        if(phoneCn!=null){
+            return 1;  //存在于phone_cn表中
+        }else{
+            return 2;  //存在于phone_us表中
+        }
     }
 
 }

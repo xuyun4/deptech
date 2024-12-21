@@ -52,7 +52,7 @@ public class VirtualAndLocation {
      * @return VirtualAndLocation对象，包含是否为虚拟号、归属地信息（城市）
      */
 
-    public static com.example.daptech.entity.VirtualAndLocation getUSInmformation(String phoneNumber) {
+    public static com.example.daptech.entity.VirtualAndLocation getUSInformation(String phoneNumber) {
         com.example.daptech.entity.VirtualAndLocation vl = new com.example.daptech.entity.VirtualAndLocation();
         vl.setIsVirtual(false);
         vl.setLocation("US");
@@ -259,7 +259,7 @@ public class VirtualAndLocation {
 
     public static void main(String[] args) {
         String phone = "304-658-7567";
-        com.example.daptech.entity.VirtualAndLocation vl = getUSInmformation(phone);
+        com.example.daptech.entity.VirtualAndLocation vl = getUSInformation(phone);
 
         System.out.println(vl.getLocation());
 

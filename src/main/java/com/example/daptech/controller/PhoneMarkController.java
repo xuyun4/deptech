@@ -23,22 +23,43 @@ public class PhoneMarkController {
     private final PhoneMarkService phoneMarkService;
 
     /**
-     * 更新手机号的标记信息
+     * Cn手机号的标记
      * @param phoneNumber 手机号
      * @param type 标记类型
      * @param mark 标记内容
      * @param token 用户token
      * @return Result
      */
-    @PutMapping("/markByPhoneNumber")  //更新手机号的标记信息
-    @Operation(summary = "更新号码的标记信息")
-    public Result update(String phoneNumber, String type, String mark,
+    @PutMapping("/markCnByPhoneNumber")  //更新手机号的标记信息
+    @Operation(summary = "Cn号码的标记")
+    public Result markCn(String phoneNumber, String type, String mark,
                          @RequestHeader("Authorization")String token) {
 
             Long userId = JwtHelper.getIdFromToken(token);
 
-            return phoneMarkService.insertMark(phoneNumber,type,mark, userId);
+            return phoneMarkService.insertCnMark(phoneNumber,type,mark, userId);
 
     }
+
+
+    /**
+     * Us手机号的标记
+     * @param phoneNumber 手机号
+     * @param type 标记类型
+     * @param mark 标记内容
+     * @param token 用户token
+     * @return Result
+     */
+    @PutMapping("/markUsByPhoneNumber")  //更新手机号的标记信息
+    @Operation(summary = "Cn号码的标记")
+    public Result markUs(String phoneNumber, String type, String mark,
+                       @RequestHeader("Authorization")String token) {
+
+        Long userId = JwtHelper.getIdFromToken(token);
+
+        return phoneMarkService.insertUsMark(phoneNumber,type,mark, userId);
+
+    }
+
 
 }

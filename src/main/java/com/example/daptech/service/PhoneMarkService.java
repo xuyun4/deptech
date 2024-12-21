@@ -12,12 +12,10 @@ public interface PhoneMarkService {
      * @param userId
      * @return
      */
-    Result insertMark(String phone, String type, String mark, Long userId);
+    Result insertCnMark(String phone, String type, String mark, Long userId);
+
+    Result insertUsMark(String phone, String type, String mark, Long userId);
 
 
-    /**
-     * 更新手机号码标记
-     * @param phoneNumber
-     */
-    void updatePhoneMark(String phoneNumber);
+
 }
