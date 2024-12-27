@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.daptech.mapper.CallMapper">
+
+    <select id="getNumberByMap" resultType="java.lang.Integer">
+        select  count(*) from `call`
+        <where>
+            <if test="begin!=null">
+                and time &gt; #{begin}
+            </if>
+            <if test="end!=null">
+                and time &lt; #{end}
+            </if>
+            and type!=#{noType}
+            and user_id=#{userId}
+        </where>
+    </select>
+    <select id="getLocationByMap" resultType="com.example.daptech.entity.vo.LocationVo">
+        SELECT location, COUNT(*) as number
+        from `call`
+        <where>
+            <if test="begin!=null">
+                and time &gt; #{begin}
+            </if>
+            <if test="end!=null">
+                and time &lt; #{end}
+            </if>
+            and type!=#{noType}
+            and user_id=#{userId}
+        </where>
+        group by location
+        order by number desc;
+    </select>
+    <select id="getTypeByMap" resultType="com.example.daptech.entity.vo.TypeVo">
+        SELECT type, COUNT(*) as number
+        from `call`
+        <where>
+            <if test="begin!=null">
+                and time &gt; #{begin}
+            </if>
+            <if test="end!=null">
+                and time &lt; #{end}
+            </if>
+            and type!=#{noType}
+            and user_id=#{userId}
+        </where>
+        group by type
+        order by number desc;
+    </select>
+</mapper>

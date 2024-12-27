@@ -19,6 +19,7 @@ public class Call {
     private String name;
     private String phoneNumber;
     private LocalDateTime time;
-    private Long userId;
     private String type;
+    private String location;
+    private Long userId;
 }

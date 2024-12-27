@@ -4,15 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CallVo {
-    private String name;
-    private String phoneNumber;
-    private LocalDateTime time;
+public class TypeVo {
     private String type;
-    private String location;
+    private Integer number;
 }

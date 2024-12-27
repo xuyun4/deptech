@@ -14,4 +14,5 @@ public class CallDto {
     private String phoneNumber;
     private LocalDateTime time;
     private String type;
+    private String location;
 }

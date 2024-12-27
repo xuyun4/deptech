@@ -1,6 +1,7 @@
 package com.example.daptech.controller;
 
 import com.example.daptech.entity.vo.CallVo;
+import com.example.daptech.entity.vo.ReportVo;
 import com.example.daptech.response.Result;
 import com.example.daptech.entity.dto.CallDto;
 import com.example.daptech.service.CallService;
@@ -35,5 +36,23 @@ public class CallController {
     @Operation(summary = "本地更新来电记录")
     public Result<List<CallVo>> getCall(@RequestHeader("Authorization") String token) {
         return callService.getCall(token);
+    }
+
+    @GetMapping("/getWeekReport")
+    @Operation(summary = "查询近一周骚扰电话信息")
+    public Result<ReportVo> getWeekReport(@RequestHeader("Authorization") String token) {
+        return callService.getWeekReport(token);
+    }
+
+    @GetMapping("/getMonthReport")
+    @Operation(summary = "查询近一月骚扰电话")
+    public Result<ReportVo> getMonthReport(@RequestHeader("Authorization") String token) {
+        return callService.getMonthReport(token);
+    }
+
+    @GetMapping("/getYearReport")
+    @Operation(summary = "查询近一年骚扰电话")
+    public Result<ReportVo> getYearReport(@RequestHeader("Authorization") String token) {
+        return callService.getYearReport(token);
     }
 }
