@@ -7,10 +7,10 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.security.Key;
-
+@Slf4j
 public class TokenInterceptor implements HandlerInterceptor {
 
     private final String tokenSignKey = JwtHelper.getTokenSignKey(); // 签名密钥
@@ -20,7 +20,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         // 从请求头中获取 token
         String token = request.getHeader("Authorization");
-
+        log.info("jwt校验:{}", token);
+        log.info("{}",request.getRequestURL());
         //验证token是否合法或存在
         if (token == null || token.isEmpty() || JwtHelper.verifyToken(token)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
