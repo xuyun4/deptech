@@ -10,6 +10,8 @@ import org.jacoco.agent.rt.internal_43f5073.Agent;
 @AllArgsConstructor
 public class PhoneUs {
 
+    private Integer id;
+
     private String phone;  //格式可以为纯数字,也可以为304-658-7567的格式
     /*拦截类型,
     Harassment Call
