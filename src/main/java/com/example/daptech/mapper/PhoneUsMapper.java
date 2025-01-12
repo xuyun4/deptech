@@ -19,4 +19,6 @@ public interface PhoneUsMapper {
     @Select("SELECT * FROM phone_us WHERE phone = #{phone}")
     PhoneUs selectByPhoneUs(String phone);
 
+    @Select("SELECT MAX(number) FROM phone_us")
+    Integer getMaxNumber();
 }

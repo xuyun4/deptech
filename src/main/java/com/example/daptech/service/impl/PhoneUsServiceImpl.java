@@ -38,13 +38,15 @@ public class PhoneUsServiceImpl implements PhoneUsService {
         PhoneUsVo phoneUsVo = new PhoneUsVo();
         BeanUtils.copyProperties(phoneUs,phoneUsVo);
 
-        Integer value = getValue(phone);
-        phoneUsVo.setValue(value);
+        Integer maxNumber = phoneUsMapper.getMaxNumber();
+        double riskValue = calculateRiskValue(phoneUs.getNumber(), maxNumber);
+
+        phoneUsVo.setValue(riskValue);
         return Result.success(phoneUsVo);
 
     }
 
-    private Integer getValue(String phone){
+/*    private Integer getValue(String phone){
         Integer count = phoneMarkMapper.getCountByPhone(phone);
         Integer value = 0;
 
@@ -70,6 +72,13 @@ public class PhoneUsServiceImpl implements PhoneUsService {
         //若手机号不在任何表中,则风险值为0
         return value;
 
+    }*/
+    public  double calculateRiskValue(int number, int maxNumber) {
+        if (maxNumber == 0) {
+            return 0;
+        }
+        // 使用对数平滑公式计算风险值
+        return (Math.log(number + 1) / Math.log(maxNumber + 1)) * 100;
     }
 
 }

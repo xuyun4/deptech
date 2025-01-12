@@ -18,5 +18,5 @@ public class PhoneUsVo {
     private String location;
     private String information;  //需要提取详细信息,算法待定
 
-    private Integer value; //号码风险值
+    private Double value; //号码风险值
 }

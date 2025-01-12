@@ -34,19 +34,23 @@ public class PhoneCnServiceImpl implements PhoneCnService {
         PhoneCnVo phoneCnVo = new PhoneCnVo();
         BeanUtils.copyProperties(phoneCn,phoneCnVo);
 
-        Integer value = getValue(phone);
-        phoneCnVo.setValue(value);
+
+        Integer maxNumber = phoneCnMapper.getMaxNumber();
+        double riskValue = calculateRiskValue(phoneCn.getNumber(), maxNumber);
+
+        phoneCnVo.setValue(riskValue);
         return Result.success(phoneCnVo);
 
     }
 
-    private Integer getValue(String phone){
-        Integer count = phoneMarkMapper.getCountByPhone(phone);
+/*    private Integer getValue(String phone){
+        Integer count = phoneMarkMapper.getCountByPhone(phone); //获取标记次数
         Integer value = 0;
 
         //若手机号在phone_cn表中
         PhoneCn phoneCn = phoneCnMapper.selectByPhoneCn(phone);
         if(phoneCn!= null){
+
             if(count==0){ //表中原始数据缺少标记信息,直接使用number字段替代标记次数
                 value = phoneCn.getNumber();
             }else{
@@ -66,6 +70,14 @@ public class PhoneCnServiceImpl implements PhoneCnService {
         //若手机号不在任何表中,则风险值为0
         return 0;
 
+    }*/
+
+    public  double calculateRiskValue(int number, int maxNumber) {
+        if (maxNumber == 0) {
+            return 0;
+        }
+        // 使用对数平滑公式计算风险值
+        return (Math.log(number + 1) / Math.log(maxNumber + 1)) * 100;
     }
 
 }

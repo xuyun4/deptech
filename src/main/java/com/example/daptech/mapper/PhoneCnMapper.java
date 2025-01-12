@@ -18,4 +18,6 @@ public interface PhoneCnMapper {
     @Select("SELECT * FROM phone_cn WHERE phone = #{phone}")
     PhoneCn selectByPhoneCn(String phone);
 
+    @Select("SELECT MAX(number) FROM phone_cn")
+    Integer getMaxNumber();
 }
