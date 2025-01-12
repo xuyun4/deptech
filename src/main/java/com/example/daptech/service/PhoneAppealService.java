@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PhoneAppealService {
     /**
-     * Submit an appeal for a phone number
+     * 提交手机申诉
      * @param phoneNumber
      * @param userId
      * @return
@@ -15,12 +15,12 @@ public interface PhoneAppealService {
     public Result submitAppeal(String phoneNumber,Long userId);
 
     /**
-     * Review an appeal for a phone number
+     * 自动审核申诉
      */
     public void autoReviewAppeals();
 
     /**
-     * Get all appeals for a user
+     * 获取用户申诉列表
      * @param userId
      * @return
      */

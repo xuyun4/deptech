@@ -27,6 +27,11 @@ public class PhoneUsServiceImpl implements PhoneUsService {
     private final PhoneMarkMapper phoneMarkMapper;
     private final PendingPhoneMapper pendingPhoneMapper;
 
+    /**
+     * 根据手机号查询手机信息
+     * @param phone
+     * @return
+     */
     @Override
     public Result<PhoneUsVo> selectByPhoneUs(String phone) {
 
@@ -73,6 +78,12 @@ public class PhoneUsServiceImpl implements PhoneUsService {
         return value;
 
     }*/
+    /**
+     * 使用对数平滑公式计算风险值
+     * @param number
+     * @param maxNumber
+     * @return
+     */
     public  double calculateRiskValue(int number, int maxNumber) {
         if (maxNumber == 0) {
             return 0;

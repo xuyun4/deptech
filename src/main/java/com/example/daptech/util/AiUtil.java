@@ -38,9 +38,9 @@ public class AiUtil {
         String text = String.join(" ", sentences);
         return aiCaller("下文为不同用户对同一个来电手机号的评价信息,请对其进行总结概括,排除无效信息,选取高频重点词汇,要求结果为一句描述性的英文句子:"+text);
     }
+
     /**
      * 调用AI接口(同步)
-     *
      * @param prompt 提示词
      * @return AI返回的答案
      */

@@ -30,6 +30,11 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
     // 获取 Unix 时间戳（秒）
     long unixTimestampSeconds = now.getEpochSecond();
 
+    /**
+     * 判断是否可以提交申诉
+     * @param userId
+     * @return
+     */
     public boolean canAppealPhoneNumber(Long userId) { //判断是否可以提交申诉,可以为true,否则为false
         PhoneAppeal lastMark = phoneAppealMapper.findLastAppeal(userId);
         if (lastMark==null) {
@@ -46,6 +51,13 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
         }
 
     }
+
+    /**
+     * 提交申诉
+     * @param phoneNumber
+     * @param userId
+     * @return
+     */
     @Override
     public Result submitAppeal(String phoneNumber, Long userId) {  //向phone_appeal表中插入一条记录,提交申诉加入审核队列
         if(canAppealPhoneNumber(userId)){
@@ -61,6 +73,9 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
         }
     }
 
+    /**
+     * 自动审核号码申诉
+     */
     @Override
     public void autoReviewAppeals() {  //自动审核号码申诉
         List<PhoneAppeal> pendingAppeals = phoneAppealMapper.findPendingAppeals(); //找到所有待审核的申诉
@@ -82,6 +97,11 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
         }
     }
 
+    /**
+     * 获取用户的申诉列表
+     * @param userId
+     * @return
+     */
     @Override
     public Result<List<PhoneAppeal>> getAppeal(Long userId) {
         List<PhoneAppeal> appeals = phoneAppealMapper.findAppeal(userId);
@@ -90,7 +110,11 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
     }
 
 
-
+    /**
+     * 审核号码申诉
+     * @param appeal
+     * @return
+     */
     private boolean isAppealApproved(PhoneAppeal appeal) { //验证七天内是否有五次以上标记
         long sevenDaysAgo = now.getEpochSecond() - 7 * 24 * 60 * 60 ;
 
@@ -98,6 +122,11 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
         return markCount <= 5;
     }
 
+    /**
+     * 审核通过操作
+     * @param appeal
+     * @param country
+     */
     private void approveAppeal(PhoneAppeal appeal,int country) {
 
         appeal.setStatus(1); // 审核通过
@@ -110,6 +139,10 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
         }
     }
 
+    /**
+     * 审核不通过操作
+     * @param appeal
+     */
     private void rejectAppeal(PhoneAppeal appeal, int country) {
         appeal.setStatus(2); // 审核不通过
         if(country==1) {
@@ -120,6 +153,11 @@ public class PhoneAppealServiceImpl implements PhoneAppealService {
 
     }
 
+    /**
+     * 判断号码是否存在于phone_cn或phone_us表中
+     * @param phone
+     * @return
+     */
     private int cnOrUs(String phone){
         PhoneCn phoneCn = phoneCnMapper.selectByPhoneCn(phone);
         if(phoneCn!=null){

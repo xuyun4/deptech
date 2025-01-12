@@ -28,6 +28,11 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
     private final PhoneUsMapper phoneUsMapper;
     private final PendingPhoneMapper pendingPhoneMapper;
 
+    /**
+     * 判断是否可以标记手机号,间隔超过一分钟才可以标记
+     * @param userId
+     * @return
+     */
     public boolean canMarkPhoneNumber(Long userId) { //判断是否可以标记手机号,可以为true,否则为false
         PhoneMark lastMark = phoneMarkMapper.selectLastByUserId(userId);
         if (lastMark==null) {
@@ -45,6 +50,14 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
 
     }
 
+    /**
+     * 标记cn手机号
+     * @param phone
+     * @param type
+     * @param mark
+     * @param userId
+     * @return
+     */
     @Override //增加标记数据
     public Result insertCnMark(String phone, String type, String mark, Long userId) {
         if(canMarkPhoneNumber(userId)) {
@@ -58,6 +71,14 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
         return Result.error("标记操作过于频繁,请一分钟后再试");
     }
 
+    /**
+     * 标记us手机号
+     * @param phone
+     * @param type
+     * @param mark
+     * @param userId
+     * @return
+     */
     @Override //增加标记数据
     public Result insertUsMark(String phone, String type, String mark, Long userId) {
         if(canMarkPhoneNumber(userId)) {
@@ -71,6 +92,13 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
         return Result.error("标记操作过于频繁,请一分钟后再试");
     }
 
+    /**
+     * 插入标记数据
+     * @param phone
+     * @param type
+     * @param mark
+     * @param userId
+     */
     private void insertMark(String phone, String type, String mark, Long userId){
         Instant now = Instant.now();
 
@@ -79,6 +107,10 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
         phoneMarkMapper.insertMark(phone, type, mark, unixTimestampSeconds, userId);
     }
 
+    /**
+     * 更新cn手机号的information字段
+     * @param phone
+     */
     /*用户新增标记,目标手机号信息可能发生变化,可能类型发生变化,
      需要再次从phone_mark中获取新类型的标记,并整合更新到新类型对应的information */
     private void updatePhoneCnInfo(String phone) {
@@ -99,6 +131,10 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
 
     }
 
+    /**
+     * 更新us手机号的information字段
+     * @param phone
+     */
     private void updatePhoneUsInfo(String phone) {
 
             PhoneUs phoneUs = phoneUsMapper.selectByPhoneUs(phone);
@@ -118,6 +154,10 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
 
     }
 
+    /**
+     * 更新cn手机号的type字段
+     * @param phoneNumber
+     */
     //插入一条新数据之后,遍历寻找标记次数最多的类型,并将其更新为该手机号的类型
     private void updatePhoneCn(String phoneNumber) {
 
@@ -186,6 +226,10 @@ public class PhoneMarkServiceImpl implements PhoneMarkService {
         }
     }
 
+    /**
+     * 更新us手机号的type字段
+     * @param phoneNumber
+     */
     private void updatePhoneUs(String phoneNumber) {
 
         List<PhoneMark> phoneMarks = phoneMarkMapper.selectMark(phoneNumber);
