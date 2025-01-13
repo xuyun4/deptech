@@ -4,5 +4,8 @@ import com.example.daptech.response.Result;
 
 public interface InterceptService {
 
-    Result<String> judge(String phone);
+    Result<String> judgeCn(String phone);
+
+    Result<String> judgeUs(String phone);
+
 }

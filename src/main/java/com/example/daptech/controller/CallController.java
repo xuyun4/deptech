@@ -26,7 +26,7 @@ public class CallController {
 
     //更新来电记录到后端
     @PutMapping("/updateCall")
-    @Operation(summary = "后端更新来电记录")
+    @Operation(summary = "后端数据库更新来电记录")
     public Result updateCall(@RequestHeader("Authorization") String token, @Valid @RequestBody List<CallDto> callDtoList) {
         return callService.updateCall(token, callDtoList);
     }
@@ -38,18 +38,21 @@ public class CallController {
         return callService.getCall(token);
     }
 
+    //返回近一周每天的骚扰电话数量,及一周内骚扰电话位置和类型的统计
     @GetMapping("/getWeekReport")
     @Operation(summary = "查询近一周骚扰电话信息")
     public Result<ReportVo> getWeekReport(@RequestHeader("Authorization") String token) {
         return callService.getWeekReport(token);
     }
 
+    //返回近一月每周的骚扰电话数量,及一月内骚扰电话位置和类型的统计
     @GetMapping("/getMonthReport")
     @Operation(summary = "查询近一月骚扰电话")
     public Result<ReportVo> getMonthReport(@RequestHeader("Authorization") String token) {
         return callService.getMonthReport(token);
     }
 
+    //返回近一年每月的骚扰电话数量,及一年内骚扰电话位置和类型的统计
     @GetMapping("/getYearReport")
     @Operation(summary = "查询近一年骚扰电话")
     public Result<ReportVo> getYearReport(@RequestHeader("Authorization") String token) {

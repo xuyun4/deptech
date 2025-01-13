@@ -21,9 +21,17 @@ public class InterceptController {
 
     private final InterceptService interceptService;
 
-    @GetMapping("/judge")
-    @Operation(summary = "判断是否拦截")
-    public Result<String> getDatabase(@RequestHeader("Authorization")String token,String phone){
-        return interceptService.judge(phone);
+    //根据电话是否在数据库中来判断是否拦截Cn
+    @GetMapping("/judgeCN")
+    @Operation(summary = "Cn判断是否拦截")
+    public Result<String> getCnDatabase(@RequestHeader("Authorization")String token,String phone){
+        return interceptService.judgeCn(phone);
+    }
+
+    //根据电话是否在数据库中来判断是否拦截US
+    @GetMapping("/judgeUS")
+    @Operation(summary = "Us判断是否拦截")
+    public Result<String> getUsDatabase(@RequestHeader("Authorization")String token,String phone){
+        return interceptService.judgeUs(phone);
     }
 }

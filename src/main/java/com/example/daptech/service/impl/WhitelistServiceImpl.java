@@ -23,6 +23,7 @@ public class WhitelistServiceImpl extends ServiceImpl<WhitelistMapper, Whitelist
 
     @Override
     public Result updateWhitelist(String token, List<WhitelistDto> whitelistDtoList) {
+        //逻辑同黑名单
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Whitelist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
@@ -40,6 +41,7 @@ public class WhitelistServiceImpl extends ServiceImpl<WhitelistMapper, Whitelist
 
     @Override
     public Result<List<WhitelistVo>> getWhitelist(String token) {
+        //逻辑同黑名单
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Whitelist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);

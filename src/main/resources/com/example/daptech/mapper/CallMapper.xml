@@ -17,7 +17,7 @@
             and user_id=#{userId}
         </where>
     </select>
-    <select id="getLocationByMap" resultType="com.example.daptech.entity.vo.LocationVo">
+<!--    <select id="getLocationByMap" resultType="com.example.daptech.entity.vo.LocationVo">
         SELECT location, COUNT(*) as number
         from `call`
         <where>
@@ -48,5 +48,5 @@
         </where>
         group by type
         order by number desc;
-    </select>
+    </select>-->
 </mapper>

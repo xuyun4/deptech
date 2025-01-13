@@ -24,6 +24,7 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact> impl
 
     @Override
     public Result updateContact(String token, List<ContactDto> contactDtoList) {
+        //逻辑同黑名单
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Contact> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
@@ -41,6 +42,7 @@ public class ContactServiceImpl extends ServiceImpl<ContactMapper, Contact> impl
 
     @Override
     public Result<List<ContactVo>> getContact(String token) {
+        //逻辑同黑名单
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Contact> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);

@@ -1,11 +1,10 @@
 package com.example.daptech.service;
 
-import com.example.daptech.entity.PhoneCn;
-import com.example.daptech.response.Result;
-
-import java.util.List;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface DatabaseService{
 
-    Result<List<PhoneCn>> getDatabase();
+    void getCnDatabase(HttpServletResponse response);
+
+    void getUsDatabase(HttpServletResponse response);
 }

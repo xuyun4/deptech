@@ -26,7 +26,9 @@ public class BlacklistServiceImpl extends ServiceImpl<BlacklistMapper, Blacklist
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Blacklist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
+        //删除原本数据
         blacklistMapper.delete(queryWrapper);
+        //插入新的数据
         List<Blacklist> blacklistList = new ArrayList<>();
         for (BlacklistDto blacklistDto : blacklistDtoList) {
             Blacklist blacklist = new Blacklist();
@@ -40,6 +42,7 @@ public class BlacklistServiceImpl extends ServiceImpl<BlacklistMapper, Blacklist
 
     @Override
     public Result<List<BlacklistVo>> getBlacklist(String token) {
+        //查询数据
         Long userId= JwtHelper.getIdFromToken(token);
         QueryWrapper<Blacklist> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
@@ -50,6 +53,7 @@ public class BlacklistServiceImpl extends ServiceImpl<BlacklistMapper, Blacklist
             BeanUtils.copyProperties(blacklist, blacklistVo);
             blacklistVoList.add(blacklistVo);
         }
+        //返回前端
         return Result.success(blacklistVoList);
     }
 }
