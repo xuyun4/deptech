@@ -35,9 +35,10 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements Ca
     public Result updateCall(String token, List<CallDto> callDtoList) {
         //逻辑同黑名单
         Long userId = JwtHelper.getIdFromToken(token);
-        QueryWrapper<Call> queryWrapper = new QueryWrapper<>();
+/*        QueryWrapper<Call> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
-        callMapper.delete(queryWrapper);
+        callMapper.delete(queryWrapper);*/
+        callMapper.deleteCall(userId);
         List<Call> callList = new ArrayList<>();
         for (CallDto callDto : callDtoList) {
             Call call = new Call();
@@ -45,7 +46,8 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements Ca
             call.setUserId(userId);
             callList.add(call);
         }
-        saveBatch(callList);
+        /*saveBatch(callList);*/
+        callMapper.addCall(callList);
         return Result.success();
     }
 
@@ -53,9 +55,10 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements Ca
     public Result<List<CallVo>> getCall(String token) {
         //逻辑同黑名单
         Long userId = JwtHelper.getIdFromToken(token);
-        QueryWrapper<Call> queryWrapper = new QueryWrapper<>();
+/*        QueryWrapper<Call> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
-        List<Call> callList = callMapper.selectList(queryWrapper);
+        List<Call> callList = callMapper.selectList(queryWrapper);*/
+        List<Call> callList=callMapper.selectCall(userId);
         List<CallVo> callVoList = new ArrayList<>();
         for (Call call : callList) {
             CallVo callVo = new CallVo();
