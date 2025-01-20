@@ -1,6 +1,5 @@
 package com.example.daptech.controller;
 
-import com.example.daptech.response.Result;
 import com.example.daptech.service.DatabaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,16 +24,14 @@ public class DatabaseController {
     //返回数据库表到前端 cn
     @GetMapping("/getCn")
     @Operation(summary = "Cn离线数据库下载")
-    public Result getCnDatabase(@RequestHeader("Authorization") String token, HttpServletResponse response) {
+    public void getCnDatabase(@RequestHeader("Authorization") String token, HttpServletResponse response) {
         databaseService.getCnDatabase(response);
-        return Result.success();
     }
 
     //返回数据库表到前端 us
     @GetMapping("/getUs")
     @Operation(summary = "Us离线数据库下载")
-    public Result getUsDatabase(@RequestHeader("Authorization") String token, HttpServletResponse response) {
+    public void getUsDatabase(@RequestHeader("Authorization") String token, HttpServletResponse response) {
         databaseService.getUsDatabase(response);
-        return Result.success();
     }
 }
