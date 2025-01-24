@@ -51,7 +51,7 @@ public class PhoneMarkController {
      * @return Result
      */
     @PutMapping("/markUsByPhoneNumber")  //更新手机号的标记信息
-    @Operation(summary = "Cn号码的标记")
+    @Operation(summary = "Us号码的标记")
     public Result markUs(String phoneNumber, String type, String mark,
                        @RequestHeader("Authorization")String token) {
 
