@@ -15,4 +15,8 @@ public interface DatabaseMapper {
 
     @Select("select * from phone_us")
     List<PhoneUs> getUsDatabase();
+
+    @Select("SELECT * FROM phone_cn")
+    List<PhoneCn> getCn();
+
 }

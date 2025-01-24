@@ -3,7 +3,10 @@ package com.example.daptech.service.impl;
 import com.example.daptech.entity.PhoneCn;
 import com.example.daptech.entity.PhoneUs;
 import com.example.daptech.mapper.DatabaseMapper;
+import com.example.daptech.response.PageResult;
 import com.example.daptech.service.DatabaseService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,7 @@ public class DatabaseServiceImpl implements DatabaseService {
     private final DatabaseMapper databaseMapper;
 
     @Override
-    public void getCnDatabase(HttpServletResponse response) {
+    public void storeCnDatabase(HttpServletResponse response) {
         //查询CN数据库,写入xlsx文件,返回前端
         List<PhoneCn> phoneCnList = databaseMapper.getCnDatabase();
 
@@ -67,7 +70,7 @@ public class DatabaseServiceImpl implements DatabaseService {
     }
 
     @Override
-    public void getUsDatabase(HttpServletResponse response) {
+    public void storeUsDatabase(HttpServletResponse response) {
         List<PhoneUs> phoneUsList = databaseMapper.getUsDatabase();
 
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("template/US.xlsx");
@@ -105,6 +108,22 @@ public class DatabaseServiceImpl implements DatabaseService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public PageResult<PhoneCn> getCnDatabase(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<PhoneCn> phoneCnList = databaseMapper.getCn();
+        Page<PhoneCn> page = (Page<PhoneCn>) phoneCnList;
+
+        PageResult<PhoneCn> coursePageResult = new PageResult<PhoneCn>();
+        coursePageResult.setPageNum(pageNum);
+        coursePageResult.setPageSize(pageSize);
+        coursePageResult.setTotalPages(page.getPages());
+        coursePageResult.setTotal(page.getTotal());
+        coursePageResult.setData(page.getResult());
+
+        return coursePageResult;
     }
 
     private void setCellValue(XSSFRow row, int cellIndex, Object value) {
