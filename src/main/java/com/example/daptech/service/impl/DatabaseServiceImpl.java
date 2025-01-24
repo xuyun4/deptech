@@ -1,24 +1,19 @@
 package com.example.daptech.service.impl;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.example.daptech.entity.PhoneCn;
 import com.example.daptech.entity.PhoneUs;
+import com.example.daptech.listener.PageReadListener;
 import com.example.daptech.mapper.DatabaseMapper;
 import com.example.daptech.response.PageResult;
 import com.example.daptech.service.DatabaseService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @Service
@@ -27,11 +22,11 @@ public class DatabaseServiceImpl implements DatabaseService {
     private final DatabaseMapper databaseMapper;
 
     @Override
-    public void storeCnDatabase(HttpServletResponse response) {
+    public void storeCnDatabase(/*HttpServletResponse response*/) {
         //查询CN数据库,写入xlsx文件,返回前端
         List<PhoneCn> phoneCnList = databaseMapper.getCnDatabase();
 
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("template/CN.xlsx");
+        /*InputStream in = this.getClass().getClassLoader().getResourceAsStream("template/CN.xlsx");
         try {
             XSSFWorkbook excel = new XSSFWorkbook(in);
             XSSFSheet sheet = excel.getSheet("Sheet1");
@@ -65,15 +60,21 @@ public class DatabaseServiceImpl implements DatabaseService {
             excel.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+        // 设置写入的文件路径
+        String file = "/home/ubuntu/database/CN_Database.xlsx";
 
+        // 使用 EasyExcel 写入数据
+        EasyExcel.write(file, PhoneCn.class)  // 第二个参数是数据类型
+                .sheet("Sheet1")                  // 设置sheet名称
+                .doWrite(phoneCnList);             // 将数据写入文件
     }
 
     @Override
-    public void storeUsDatabase(HttpServletResponse response) {
+    public void storeUsDatabase(/*HttpServletResponse response*/) {
         List<PhoneUs> phoneUsList = databaseMapper.getUsDatabase();
 
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream("template/US.xlsx");
+/*        InputStream in = this.getClass().getClassLoader().getResourceAsStream("template/US.xlsx");
         try {
             XSSFWorkbook excel = new XSSFWorkbook(in);
             XSSFSheet sheet = excel.getSheet("Sheet1");
@@ -107,23 +108,85 @@ public class DatabaseServiceImpl implements DatabaseService {
             excel.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+        // 设置写入的文件路径
+        String file = "/home/ubuntu/database/US_Database.xlsx";
+
+        // 使用 EasyExcel 写入数据
+        EasyExcel.write(file, PhoneUs.class)  // 第二个参数是数据类型
+                .sheet("Sheet1")                  // 设置sheet名称
+                .doWrite(phoneUsList);             // 将数据写入文件
     }
 
     @Override
     public PageResult<PhoneCn> getCnDatabase(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<PhoneCn> phoneCnList = databaseMapper.getCn();
+/*        PageHelper.startPage(pageNum, pageSize);
+        List<PhoneCn> phoneCnList = databaseMapper.getCnDatabase();
         Page<PhoneCn> page = (Page<PhoneCn>) phoneCnList;
 
-        PageResult<PhoneCn> coursePageResult = new PageResult<PhoneCn>();
-        coursePageResult.setPageNum(pageNum);
-        coursePageResult.setPageSize(pageSize);
-        coursePageResult.setTotalPages(page.getPages());
-        coursePageResult.setTotal(page.getTotal());
-        coursePageResult.setData(page.getResult());
+        PageResult<PhoneCn> phoneCnPageResult = new PageResult<PhoneCn>();
+        phoneCnPageResult.setPageNum(pageNum);
+        phoneCnPageResult.setPageSize(pageSize);
+        phoneCnPageResult.setTotalPages(page.getPages());
+        phoneCnPageResult.setTotal(page.getTotal());
+        phoneCnPageResult.setData(page.getResult());
 
-        return coursePageResult;
+        return phoneCnPageResult;*/
+
+        String file = "/home/ubuntu/database/CN_Database.xlsx";
+
+        int startRow = (pageNum - 1) * pageSize;  // 计算开始行
+        int endRow = pageNum * pageSize;  // 计算结束行
+
+        // 创建分页读取的监听器
+        PageReadListener<PhoneCn> listener = new PageReadListener<>(startRow, endRow);
+
+        // 使用 EasyExcel 读取指定页的数据
+        EasyExcel.read(file, PhoneCn.class, listener)
+                .excelType(ExcelTypeEnum.XLSX)
+                .sheet(0)  // 第一个 sheet
+                .doRead();
+
+        // 获取分页读取的数据
+        List<PhoneCn> pageData = listener.getDataList();
+
+        PageResult<PhoneCn> phoneCnPageResult = new PageResult<>();
+        phoneCnPageResult.setPageNum(pageNum);
+        phoneCnPageResult.setPageSize(pageSize);
+        phoneCnPageResult.setTotalPages(listener.getTotalPages(pageSize));
+        phoneCnPageResult.setTotal(listener.getTotal());
+        phoneCnPageResult.setData(listener.getDataList());
+
+        return phoneCnPageResult;
+    }
+
+    @Override
+    public PageResult<PhoneUs> getUsDatabase(int pageNum, int pageSize) {
+        String file = "/home/ubuntu/database/US_Database.xlsx";
+
+        int startRow = (pageNum - 1) * pageSize;  // 计算开始行
+        int endRow = pageNum * pageSize;  // 计算结束行
+
+        // 创建分页读取的监听器
+        PageReadListener<PhoneUs> listener = new PageReadListener<>(startRow, endRow);
+
+        // 使用 EasyExcel 读取指定页的数据
+        EasyExcel.read(file, PhoneUs.class, listener)
+                .excelType(ExcelTypeEnum.XLSX)
+                .sheet(0)  // 第一个 sheet
+                .doRead();
+
+        // 获取分页读取的数据
+        List<PhoneUs> pageData = listener.getDataList();
+
+        PageResult<PhoneUs> phoneUsPageResult = new PageResult<>();
+        phoneUsPageResult.setPageNum(pageNum);
+        phoneUsPageResult.setPageSize(pageSize);
+        phoneUsPageResult.setTotalPages(listener.getTotalPages(pageSize));
+        phoneUsPageResult.setTotal(listener.getTotal());
+        phoneUsPageResult.setData(listener.getDataList());
+
+        return phoneUsPageResult;
     }
 
     private void setCellValue(XSSFRow row, int cellIndex, Object value) {
