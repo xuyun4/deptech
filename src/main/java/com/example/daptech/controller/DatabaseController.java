@@ -31,7 +31,7 @@ public class DatabaseController {
     //获取数据库表 Cn
     @GetMapping("/getCn")
     @Operation(summary = "Cn离线数据库获取")
-    public Result<PageResult<PhoneCn>> getCnDatabase(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "100") int pageSize) {
+    public Result<PageResult<PhoneCn>> getCnDatabase(@RequestHeader("Authorization") String token,@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "100") int pageSize) {
         PageResult<PhoneCn> phoneCnPageResult=databaseService.getCnDatabase(pageNum,pageSize);
         return Result.success(phoneCnPageResult);
     }
@@ -46,7 +46,7 @@ public class DatabaseController {
     //获取数据库表 Us
     @GetMapping("/getUs")
     @Operation(summary = "Us离线数据库获取")
-    public Result<PageResult<PhoneUs>> getUsDatabase(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "100") int pageSize) {
+    public Result<PageResult<PhoneUs>> getUsDatabase(@RequestHeader("Authorization") String token,@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "100") int pageSize) {
         PageResult<PhoneUs> phoneUsPageResult=databaseService.getUsDatabase(pageNum,pageSize);
         return Result.success(phoneUsPageResult);
     }
