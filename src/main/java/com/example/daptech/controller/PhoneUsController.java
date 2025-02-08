@@ -42,7 +42,7 @@ public class PhoneUsController {
      * @return
      */
     @PostMapping("/selectByPhoneNumbers")  //批量查询号码信息
-    @Operation(summary = "批量查询号码信息,参数形如：phoneNumbers= 13812345678,13812345679 ")
+    @Operation(summary = "批量查询号码信息")
     public Result<List<PhoneUsVo>> selectByPhoneNumbers(@RequestHeader("Authorization")String token, @RequestBody List<String> phoneNumbers) {
         return phoneUsService.selectByPhoneNumbers(phoneNumbers);
     }
