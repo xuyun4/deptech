@@ -23,13 +23,13 @@ public class BlacklistController {
 
     private final BlacklistService blacklistService;
 
-    //更新黑名单表到后端
+    //前端传黑名单表到后端,完成数据库黑名单表的更新
     @PutMapping("/updateBlacklist")
-    @Operation(summary = "后端更新黑名单")
+    @Operation(summary = "后端数据库更新黑名单")
     public Result updateBlacklist(@RequestHeader("Authorization")String token, @Valid @RequestBody List<BlacklistDto> blacklistDtoList) {
         return blacklistService.updateBlacklist(token,blacklistDtoList);
     }
-    //查询黑名单表,返回前端
+    //后端查询黑名单表返回前端
     @GetMapping("/getBlacklist")
     @Operation(summary = "本地更新黑名单")
     public Result<List<BlacklistVo>> getBlacklist(@RequestHeader("Authorization")String token) {

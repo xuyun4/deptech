@@ -1,6 +1,7 @@
-package com.example.daptech.response;
+package com.example.daptech.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PageResult<T> implements Serializable {
     private int pageNum;          // 当前页码
     private int pageSize;         // 每页显示的条目数

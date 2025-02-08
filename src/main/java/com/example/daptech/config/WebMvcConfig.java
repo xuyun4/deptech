@@ -13,6 +13,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/**")
                 .excludePathPatterns("/swagger-ui.html","/doc.html","/swagger-ui/**", "/v3/api-docs/**",
-                        "/swagger-resources/**", "/webjars/**", "/swagger-ui/index.html#");
+                        "/swagger-resources/**", "/webjars/**", "/swagger-ui/index.html#","/favicon.ico");
     }
 }

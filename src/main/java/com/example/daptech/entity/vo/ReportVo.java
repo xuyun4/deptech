@@ -15,6 +15,4 @@ import java.util.List;
 public class ReportVo {
     private String timeList;
     private String numberList;
-    private List<LocationVo> locationVoList;
-    private List<TypeVo> typeVoList;
 }
