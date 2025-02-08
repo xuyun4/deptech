@@ -4,6 +4,8 @@ import com.example.daptech.entity.PhoneCn;
 import com.example.daptech.entity.PhoneUs;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface PhoneUsMapper {
 
@@ -59,4 +61,11 @@ public interface PhoneUsMapper {
      */
     @Select("SELECT MAX(number) FROM phone_us")
     Integer getMaxNumber();
+
+    /**
+     * 批量查询手机信息
+     * @param phoneNumbers 手机号列表
+     * @return 手机信息列表
+     */
+    List<PhoneUs> selectByPhoneNumbers(List<String> phoneNumbers);
 }

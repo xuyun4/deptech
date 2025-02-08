@@ -13,6 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -46,6 +47,29 @@ public class PhoneCnServiceImpl implements PhoneCnService {
         phoneCnVo.setValue(riskValue);
         return Result.success(phoneCnVo);
 
+    }
+
+    /**
+     * 批量查询号码信息
+     * @param phoneNumbers
+     * @return
+     */
+    @Override
+    public Result<List<PhoneCnVo>> selectByPhoneNumbers(List<String> phoneNumbers) {
+
+        List<PhoneCn> phoneCns = phoneCnMapper.selectByPhoneNumbers(phoneNumbers);
+        List<PhoneCnVo> phoneCnVos = new ArrayList<>();
+        Integer maxNumber = phoneCnMapper.getMaxNumber();
+
+        for (PhoneCn phoneCn : phoneCns) {
+            PhoneCnVo phoneCnVo = new PhoneCnVo();
+            BeanUtils.copyProperties(phoneCn,phoneCnVo);
+            double riskValue = calculateRiskValue(phoneCn.getNumber(), maxNumber);
+            phoneCnVo.setValue(riskValue);
+            phoneCnVos.add(phoneCnVo);
+        }
+
+        return phoneCnVos.isEmpty()? Result.error("手机号不存在") : Result.success(phoneCnVos);
     }
 
 /*    private Integer getValue(String phone){

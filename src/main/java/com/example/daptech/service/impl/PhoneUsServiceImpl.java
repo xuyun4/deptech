@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,6 +50,24 @@ public class PhoneUsServiceImpl implements PhoneUsService {
         phoneUsVo.setValue(riskValue);
         return Result.success(phoneUsVo);
 
+    }
+
+    @Override
+    public Result<List<PhoneUsVo>> selectByPhoneNumbers(List<String> phoneNumbers) {
+
+        List<PhoneUs> phoneUss = phoneUsMapper.selectByPhoneNumbers(phoneNumbers);
+        List<PhoneUsVo> phoneUsVos = new ArrayList<>();
+        Integer maxNumber = phoneUsMapper.getMaxNumber();
+
+        for (PhoneUs phoneUs : phoneUss) {
+            PhoneUsVo phoneUsVo = new PhoneUsVo();
+            BeanUtils.copyProperties(phoneUs,phoneUsVo);
+            double riskValue = calculateRiskValue(phoneUs.getNumber(), maxNumber);
+            phoneUsVo.setValue(riskValue);
+            phoneUsVos.add(phoneUsVo);
+        }
+
+        return phoneUsVos.isEmpty()? Result.error("手机号不存在") : Result.success(phoneUsVos);
     }
 
 /*    private Integer getValue(String phone){

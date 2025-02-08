@@ -26,6 +26,5 @@ public class PhoneCn {
     @ExcelProperty("位置")
     private String location;
     @ExcelProperty("信息")
-    private String information;  //需要提取详细信息,算法待定
-
+    private String information;  //需要提取详细信息
 }

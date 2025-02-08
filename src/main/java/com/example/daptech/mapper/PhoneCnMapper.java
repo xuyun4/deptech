@@ -3,6 +3,8 @@ package com.example.daptech.mapper;
 import com.example.daptech.entity.PhoneCn;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface PhoneCnMapper {
 
@@ -51,6 +53,13 @@ public interface PhoneCnMapper {
      */
     @Select("SELECT * FROM phone_cn WHERE phone = #{phone}")
     PhoneCn selectByPhoneCn(String phone);
+
+    /**
+     * 批量查询手机信息
+     * @param phoneNumbers 手机号列表
+     * @return 手机信息列表
+     */
+    List<PhoneCn> selectByPhoneNumbers(List<String> phoneNumbers);
 
     /**
      * 查询最大的手机号码
