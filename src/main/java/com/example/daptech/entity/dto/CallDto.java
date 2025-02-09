@@ -17,4 +17,6 @@ public class CallDto {
     private LocalDateTime time;
     private String type;
     private String location;
+    private Integer second;
+    private String handUpType;
 }
