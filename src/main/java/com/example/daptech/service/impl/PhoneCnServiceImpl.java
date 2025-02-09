@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -56,20 +59,47 @@ public class PhoneCnServiceImpl implements PhoneCnService {
      */
     @Override
     public Result<List<PhoneCnVo>> selectByPhoneNumbers(List<String> phoneNumbers) {
-
+        // 获取数据库存在的号码信息
         List<PhoneCn> phoneCns = phoneCnMapper.selectByPhoneNumbers(phoneNumbers);
-        List<PhoneCnVo> phoneCnVos = new ArrayList<>();
+
+        // 用于快速查找数据库中存在的电话号码
+        Set<String> existingPhones = phoneCns.stream()
+                .map(PhoneCn::getPhone)
+                .collect(Collectors.toSet());
+
+        // 获取最大号码值用于计算风险值
         Integer maxNumber = phoneCnMapper.getMaxNumber();
 
-        for (PhoneCn phoneCn : phoneCns) {
+        // 存储最终结果
+        List<PhoneCnVo> phoneCnVos = new ArrayList<>();
+
+        for (String phoneNumber : phoneNumbers) {
             PhoneCnVo phoneCnVo = new PhoneCnVo();
-            BeanUtils.copyProperties(phoneCn,phoneCnVo);
-            double riskValue = calculateRiskValue(phoneCn.getNumber(), maxNumber);
-            phoneCnVo.setValue(riskValue);
+
+            // 设置电话号码
+            phoneCnVo.setPhone(phoneNumber);
+
+            // 查找是否存在该电话号码的信息
+            Optional<PhoneCn> optionalPhoneCn = phoneCns.stream()
+                    .filter(phoneCn -> phoneCn.getPhone().equals(phoneNumber))
+                    .findFirst();
+
+            if (optionalPhoneCn.isPresent()) {
+                // 如果存在，复制属性并计算风险值
+                PhoneCn phoneCn = optionalPhoneCn.get();
+                BeanUtils.copyProperties(phoneCn, phoneCnVo);
+                double riskValue = calculateRiskValue(phoneCn.getNumber(), maxNumber);
+                phoneCnVo.setValue(riskValue);
+            } else {
+                // 如果不存在，保持其他属性为null
+                phoneCnVo.setValue(null); // 确保风险值为null
+                // 假设PhoneCnVo有其他需要手动设置为null的属性，请在这里添加相应的设置
+            }
+
             phoneCnVos.add(phoneCnVo);
         }
 
-        return phoneCnVos.isEmpty()? Result.error("手机号不存在") : Result.success(phoneCnVos);
+        return phoneCnVos.isEmpty() ? Result.error("手机号不存在") : Result.success(phoneCnVos);
     }
 
 /*    private Integer getValue(String phone){
