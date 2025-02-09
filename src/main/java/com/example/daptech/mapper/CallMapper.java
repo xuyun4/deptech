@@ -16,4 +16,5 @@ public interface CallMapper extends BaseMapper<Call> {
     void addCall(List<Call> callList);
 
     List<Call> selectCall(Long userId);
+
 }
