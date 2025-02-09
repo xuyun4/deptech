@@ -5,10 +5,11 @@
 <mapper namespace="com.example.daptech.mapper.CallMapper">
 
     <insert id="addCall">
-        INSERT INTO `call` (name, phone_number, time, type, location, user_id)
+        INSERT INTO `call` (name, phone_number, time, type, location,second,hand_up_type, user_id)
         VALUES
         <foreach collection="callList" item="call" separator=",">
-            (#{call.name}, #{call.phoneNumber}, #{call.time}, #{call.type}, #{call.location}, #{call.userId})
+            (#{call.name}, #{call.phoneNumber}, #{call.time}, #{call.type},
+            #{call.location},#{call.second},#{call.handUpType},#{call.userId})
         </foreach>
     </insert>
 
